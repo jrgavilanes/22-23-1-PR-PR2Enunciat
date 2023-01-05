@@ -5,12 +5,12 @@ import edu.uoc.ds.adt.sequential.List;
 import edu.uoc.ds.traversal.Iterator;
 
 public class OrganizingEntity {
-    private int organizationId;
+    private String organizationId;
     private String description;
     private String name;
     private List<SportEvent> events;
 
-    public OrganizingEntity(int organizationId, String name, String description) {
+    public OrganizingEntity(String organizationId, String name, String description) {
         this.organizationId = organizationId;
         this.name = name;
         this.description = description;
@@ -21,7 +21,7 @@ public class OrganizingEntity {
         return name;
     }
 
-    public int getOrganizationId() {
+    public String getOrganizationId() {
         return organizationId;
     }
 
@@ -29,7 +29,7 @@ public class OrganizingEntity {
         return description;
     }
 
-    public void setOrganizationId(int organizationId) {
+    public void setOrganizationId(String organizationId) {
         this.organizationId = organizationId;
     }
 

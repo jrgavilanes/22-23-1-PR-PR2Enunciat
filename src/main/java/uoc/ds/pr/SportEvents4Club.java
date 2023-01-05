@@ -28,6 +28,14 @@ public interface SportEvents4Club {
         LARGE,
         XLARGE,
     }
+
+    enum Level {
+        LEGEND,
+        MASTER,
+        EXPERT,
+        PRO,
+        ROOKIE,
+    }
     //
     // Resources
     //
@@ -95,7 +103,7 @@ public interface SportEvents4Club {
      * @param name the name
      * @param description the description
      */
-    public void addOrganizingEntity (int id, String name, String description);
+    public void addOrganizingEntity (String id, String name, String description);
 
     /**
      * Create a file about a new sporting event
@@ -117,7 +125,7 @@ public interface SportEvents4Club {
      * @see uoc.ds.pr.util.ResourceUtil
      * @throws OrganizingEntityNotFoundException
      */
-    public void addFile(String id, String eventId, int orgId, String description,
+    public void addFile(String id, String eventId, String orgId, String description,
                         Type type, byte resources, int max, LocalDate startDate, LocalDate endDate) throws OrganizingEntityNotFoundException;
 
     /**
@@ -177,7 +185,7 @@ public interface SportEvents4Club {
      * @return iterator to iterate through the events of an organizing entity
      * @throws NoSportEventsException if there are no sports event
      */
-    public Iterator<SportEvent> getSportEventsByOrganizingEntity(int organizationId) throws NoSportEventsException;
+    public Iterator<SportEvent> getSportEventsByOrganizingEntity(String organizationId) throws NoSportEventsException;
 
     /**
      * Consult all the sporting events that are in the system. If there is none, an error will be shown.
@@ -272,14 +280,14 @@ public interface SportEvents4Club {
     public int numSportEvents();
     public int numSportEventsByPlayer(String playerId);
     public int numPlayersBySportEvent(String sportEventId);
-    public int numSportEventsByOrganizingEntity(int orgId);
+    public int numSportEventsByOrganizingEntity(String orgId);
     public  int numSubstitutesBySportEvent(String sportEventId);
 
     public Player getPlayer(String playerId);
 
     public SportEvent getSportEvent(String eventId);
 
-    public OrganizingEntity getOrganizingEntity(int id);
+    public OrganizingEntity getOrganizingEntity(String id);
 
     public File currentFile();
 
