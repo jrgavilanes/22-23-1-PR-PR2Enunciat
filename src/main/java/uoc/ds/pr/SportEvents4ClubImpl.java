@@ -3,19 +3,74 @@ package uoc.ds.pr;
 import edu.uoc.ds.adt.nonlinear.Dictionary;
 import edu.uoc.ds.adt.nonlinear.DictionaryAVLImpl;
 import edu.uoc.ds.adt.nonlinear.HashTable;
+import edu.uoc.ds.adt.nonlinear.PriorityQueue;
 import edu.uoc.ds.adt.sequential.Queue;
 import edu.uoc.ds.adt.sequential.QueueArrayImpl;
 import edu.uoc.ds.traversal.Iterator;
 import uoc.ds.pr.exceptions.*;
 import uoc.ds.pr.model.*;
-import uoc.ds.pr.util.DictionaryOrderedVector;
 import uoc.ds.pr.util.OrderedVector;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 
 public class SportEvents4ClubImpl implements SportEvents4Club {
+
+    Comparator<File> fileComparator = new Comparator<File>() {
+        @Override
+        public int compare(File o1, File o2) {
+            LocalDate d1 = o1.getStartDate();
+            LocalDate d2 = o2.getStartDate();
+
+            if (d1.equals(d2)) {
+                return o2.getType().ordinal() - o1.getType().ordinal();
+            } else {
+                return (int) ChronoUnit.DAYS.between(d2, d1);
+            }
+        }
+
+        @Override
+        public Comparator<File> reversed() {
+            return Comparator.super.reversed();
+        }
+
+        @Override
+        public Comparator<File> thenComparing(Comparator<? super File> other) {
+            return Comparator.super.thenComparing(other);
+        }
+
+        @Override
+        public <U> Comparator<File> thenComparing(Function<? super File, ? extends U> keyExtractor, Comparator<? super U> keyComparator) {
+            return Comparator.super.thenComparing(keyExtractor, keyComparator);
+        }
+
+        @Override
+        public <U extends Comparable<? super U>> Comparator<File> thenComparing(Function<? super File, ? extends U> keyExtractor) {
+            return Comparator.super.thenComparing(keyExtractor);
+        }
+
+        @Override
+        public Comparator<File> thenComparingInt(ToIntFunction<? super File> keyExtractor) {
+            return Comparator.super.thenComparingInt(keyExtractor);
+        }
+
+        @Override
+        public Comparator<File> thenComparingLong(ToLongFunction<? super File> keyExtractor) {
+            return Comparator.super.thenComparingLong(keyExtractor);
+        }
+
+        @Override
+        public Comparator<File> thenComparingDouble(ToDoubleFunction<? super File> keyExtractor) {
+            return Comparator.super.thenComparingDouble(keyExtractor);
+        }
+    };
 
     private HashTable<String, Attender> attenders;
     private HashTable<String, Worker> workers;
@@ -27,8 +82,8 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
     private HashTable<String, OrganizingEntity> organizingEntities;
     private int numOrganizingEntities;
 
-    private Queue<File> files;
-    private Dictionary<String, SportEvent> sportEvents;
+    private PriorityQueue<File> files;
+    private DictionaryAVLImpl<String, SportEvent> sportEvents;
 
     private int totalFiles;
     private int rejectedFiles;
@@ -46,7 +101,7 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
         workers = new HashTable<String, Worker>();
         attenders = new HashTable<String, Attender>();
         numOrganizingEntities = 0;
-        files = new QueueArrayImpl<>();
+        files = new PriorityQueue<>(fileComparator);
         sportEvents = new DictionaryAVLImpl<String, SportEvent>();
         totalFiles = 0;
         rejectedFiles = 0;
@@ -84,7 +139,7 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
     public void addAttender(String phone, String name, String eventId) throws NoSportEventsException, AttenderAlreadyExistsException, LimitExceededException {
         SportEvent sportEvent = sportEvents.get(eventId);
         if (sportEvent == null) throw new NoSportEventsException();
-        if (sportEvent.getNumAttenders() >= sportEvent.getMax()) throw new LimitExceededException();
+        if (sportEvent.numAttenders() >= sportEvent.getMax()) throw new LimitExceededException();
         if (sportEvent.getAttender(phone) != null) throw new AttenderAlreadyExistsException();
 
         sportEvent.addAttender(new Attender(phone, name));
@@ -105,9 +160,9 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
     public Iterator<Attender> getAttenders(String eventId) throws NoSportEventsException, NoAttendersException {
         SportEvent sportEvent = sportEvents.get(eventId);
         if (sportEvent == null) throw new NoSportEventsException();
-        if (sportEvent.getNumAttenders() == 0) throw new NoAttendersException();
+        if (sportEvent.numAttenders() == 0) throw new NoAttendersException();
 
-        return sportEvent.getAttenders().values();
+        return (Iterator<Attender>) sportEvent.getAttenders().values();
     }
 
 

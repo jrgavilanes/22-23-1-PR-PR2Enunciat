@@ -39,11 +39,11 @@ public class SportEvent implements Comparable<SportEvent> {
         return attenders.get(phone);
     }
 
-    public List<Attender> getAttenders() {
+    public Hashtable<String, Attender> getAttenders() {
         return attenders;
     }
 
-    public int getNumAttenders() {
+    public int numAttenders() {
         return numAttenders;
     }
 

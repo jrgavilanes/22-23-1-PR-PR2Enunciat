@@ -8,6 +8,11 @@ public class File {
 
     private final SportEvents4Club.Type type;
     private String eventId;
+
+    public SportEvents4Club.Type getType() {
+        return type;
+    }
+
     private String description;
     private String recordId;
     private byte resources;
