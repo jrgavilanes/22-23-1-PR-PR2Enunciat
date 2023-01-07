@@ -1,6 +1,7 @@
 package uoc.ds.pr;
 
 import edu.uoc.ds.adt.nonlinear.Dictionary;
+import edu.uoc.ds.adt.nonlinear.DictionaryAVLImpl;
 import edu.uoc.ds.adt.nonlinear.HashTable;
 import edu.uoc.ds.adt.sequential.Queue;
 import edu.uoc.ds.adt.sequential.QueueArrayImpl;
@@ -16,6 +17,7 @@ import java.util.Objects;
 
 public class SportEvents4ClubImpl implements SportEvents4Club {
 
+    private HashTable<String, Attender> attenders;
     private HashTable<String, Worker> workers;
     private Player[] players;
     private int numPlayers;
@@ -42,9 +44,10 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
         numRoles = 0;
         organizingEntities = new HashTable<String, OrganizingEntity>();
         workers = new HashTable<String, Worker>();
+        attenders = new HashTable<String, Attender>();
         numOrganizingEntities = 0;
         files = new QueueArrayImpl<>();
-        sportEvents = new DictionaryOrderedVector<String, SportEvent>(MAX_NUM_SPORT_EVENTS, SportEvent.CMP_K);
+        sportEvents = new DictionaryAVLImpl<String, SportEvent>();
         totalFiles = 0;
         rejectedFiles = 0;
         mostActivePlayer = null;
@@ -75,6 +78,36 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
             w.setBirthday(birthday);
             w.setRoleId(roleId);
         }
+    }
+
+    @Override
+    public void addAttender(String phone, String name, String eventId) throws NoSportEventsException, AttenderAlreadyExistsException, LimitExceededException {
+        SportEvent sportEvent = sportEvents.get(eventId);
+        if (sportEvent == null) throw new NoSportEventsException();
+        if (sportEvent.getNumAttenders() >= sportEvent.getMax()) throw new LimitExceededException();
+        if (sportEvent.getAttender(phone) != null) throw new AttenderAlreadyExistsException();
+
+        sportEvent.addAttender(new Attender(phone, name));
+    }
+
+    @Override
+    public Attender getAttender(String phone, String eventId) throws NoSportEventsException, AttenderNotFoundException {
+        SportEvent sportEvent = sportEvents.get(eventId);
+        if (sportEvent == null) throw new NoSportEventsException();
+
+        Attender attender = sportEvent.getAttender(phone);
+        if (attender == null) throw new AttenderNotFoundException();
+
+        return attender;
+    }
+
+    @Override
+    public Iterator<Attender> getAttenders(String eventId) throws NoSportEventsException, NoAttendersException {
+        SportEvent sportEvent = sportEvents.get(eventId);
+        if (sportEvent == null) throw new NoSportEventsException();
+        if (sportEvent.getNumAttenders() == 0) throw new NoAttendersException();
+
+        return sportEvent.getAttenders().values();
     }
 
 

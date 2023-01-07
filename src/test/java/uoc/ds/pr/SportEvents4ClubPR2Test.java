@@ -5,8 +5,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import uoc.ds.pr.exceptions.AttenderNotFoundException;
 import uoc.ds.pr.exceptions.DSException;
+import uoc.ds.pr.exceptions.NoAttendersException;
 import uoc.ds.pr.exceptions.SportEventNotFoundException;
+import uoc.ds.pr.model.Attender;
 import uoc.ds.pr.model.OrganizingEntity;
 import uoc.ds.pr.model.SportEvent;
 

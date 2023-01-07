@@ -2,10 +2,7 @@ package uoc.ds.pr;
 
 import edu.uoc.ds.traversal.Iterator;
 import uoc.ds.pr.exceptions.*;
-import uoc.ds.pr.model.File;
-import uoc.ds.pr.model.OrganizingEntity;
-import uoc.ds.pr.model.Player;
-import uoc.ds.pr.model.SportEvent;
+import uoc.ds.pr.model.*;
 
 import java.time.LocalDate;
 
@@ -14,9 +11,15 @@ import java.time.LocalDate;
 public interface SportEvents4Club {
 
 
-    void addRole(String roleId, String description);
+    public void addRole(String roleId, String description);
 
-    void addWorker(String dni, String name, String surname, LocalDate birthday, String roleId);
+    public void addWorker(String dni, String name, String surname, LocalDate birthday, String roleId);
+
+    public void addAttender(String phone, String name, String eventId) throws NoSportEventsException, AttenderAlreadyExistsException, LimitExceededException;
+
+    public Attender getAttender(String phone, String eventId) throws NoSportEventsException, AttenderNotFoundException;
+
+    public Iterator<Attender> getAttenders(String eventId) throws NoSportEventsException, NoAttendersException;
 
     enum Status {
         PENDING,

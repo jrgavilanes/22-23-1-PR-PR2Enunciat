@@ -9,6 +9,7 @@ import uoc.ds.pr.SportEvents4Club;
 
 import java.time.LocalDate;
 import java.util.Comparator;
+import java.util.Hashtable;
 
 import static uoc.ds.pr.SportEvents4Club.MAX_NUM_ENROLLMENT;
 
@@ -30,7 +31,28 @@ public class SportEvent implements Comparable<SportEvent> {
 
     private int numSubstitutes;
 
+    private int numAttenders;
+
     private Queue<Enrollment> enrollments;
+
+    public Attender getAttender(String phone) {
+        return attenders.get(phone);
+    }
+
+    public List<Attender> getAttenders() {
+        return attenders;
+    }
+
+    public int getNumAttenders() {
+        return numAttenders;
+    }
+
+    public void addAttender(Attender attender) {
+        this.attenders.put(attender.getPhone(), attender);
+        this.numAttenders++;
+    }
+
+    private Hashtable<String, Attender> attenders;
 
 
     public SportEvent(String eventId, String description, SportEvents4Club.Type type,
@@ -42,9 +64,11 @@ public class SportEvent implements Comparable<SportEvent> {
         setType(type);
         setMax(max);
         setFile(file);
+        this.attenders = new Hashtable<String, Attender>();
         this.enrollments = new QueueArrayImpl<>(MAX_NUM_ENROLLMENT);
         this.ratings = new LinkedList<>();
         numSubstitutes = 0;
+        numAttenders = 0;
     }
 
 
