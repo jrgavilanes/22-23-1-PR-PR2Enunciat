@@ -6,20 +6,21 @@ import edu.uoc.ds.adt.sequential.Queue;
 import edu.uoc.ds.adt.sequential.QueueArrayImpl;
 import edu.uoc.ds.traversal.Iterator;
 import uoc.ds.pr.exceptions.*;
-import uoc.ds.pr.model.File;
-import uoc.ds.pr.model.OrganizingEntity;
-import uoc.ds.pr.model.Player;
-import uoc.ds.pr.model.SportEvent;
+import uoc.ds.pr.model.*;
 import uoc.ds.pr.util.DictionaryOrderedVector;
 import uoc.ds.pr.util.OrderedVector;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 
 public class SportEvents4ClubImpl implements SportEvents4Club {
 
+    private HashTable<String, Worker> workers;
     private Player[] players;
     private int numPlayers;
+
+    private int numRoles;
 
     private HashTable<String, OrganizingEntity> organizingEntities;
     private int numOrganizingEntities;
@@ -33,10 +34,14 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
     private Player mostActivePlayer;
     private OrderedVector<SportEvent> bestSportEvent;
 
+    private Role[] roles;
+
     public SportEvents4ClubImpl() {
         players = new Player[MAX_NUM_PLAYER];
         numPlayers = 0;
+        numRoles = 0;
         organizingEntities = new HashTable<String, OrganizingEntity>();
+        workers = new HashTable<String, Worker>();
         numOrganizingEntities = 0;
         files = new QueueArrayImpl<>();
         sportEvents = new DictionaryOrderedVector<String, SportEvent>(MAX_NUM_SPORT_EVENTS, SportEvent.CMP_K);
@@ -44,6 +49,32 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
         rejectedFiles = 0;
         mostActivePlayer = null;
         bestSportEvent = new OrderedVector<SportEvent>(MAX_NUM_SPORT_EVENTS, SportEvent.CMP_V);
+    }
+
+
+    @Override
+    public void addRole(String roleId, String description) {
+        for (Role r : roles) {
+            if (r == null) {
+                roles[numRoles++] = new Role(roleId, description);
+            } else if (Objects.equals(r.getRoleId(), roleId)) {
+                r.setRoleId(roleId);
+                r.setDescription(description);
+            }
+        }
+    }
+
+    @Override
+    public void addWorker(String dni, String name, String surname, LocalDate birthday, String roleId) {
+        Worker w = workers.get(dni);
+        if (w == null) {
+            workers.put(dni, new Worker(dni, name, surname, birthday, roleId));
+        } else {
+            w.setName(name);
+            w.setSurname(surname);
+            w.setBirthday(birthday);
+            w.setRoleId(roleId);
+        }
     }
 
 

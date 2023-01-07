@@ -14,6 +14,9 @@ import java.time.LocalDate;
 public interface SportEvents4Club {
 
 
+    void addRole(String roleId, String description);
+
+    void addWorker(String dni, String name, String surname, LocalDate birthday, String roleId);
 
     enum Status {
         PENDING,
