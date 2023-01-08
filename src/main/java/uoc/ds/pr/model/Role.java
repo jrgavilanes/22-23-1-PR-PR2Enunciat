@@ -40,7 +40,6 @@ public class Role {
     }
 
     public void removeWorker(String dni) {
-        //juanra aqui
         LinkedList<Worker> workersNew = new LinkedList<>();
 
         Iterator<Worker> it = workers.values();
