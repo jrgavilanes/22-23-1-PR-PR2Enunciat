@@ -1,11 +1,8 @@
 package uoc.ds.pr;
 
-import edu.uoc.ds.adt.nonlinear.Dictionary;
 import edu.uoc.ds.adt.nonlinear.DictionaryAVLImpl;
 import edu.uoc.ds.adt.nonlinear.HashTable;
 import edu.uoc.ds.adt.nonlinear.PriorityQueue;
-import edu.uoc.ds.adt.sequential.Queue;
-import edu.uoc.ds.adt.sequential.QueueArrayImpl;
 import edu.uoc.ds.traversal.Iterator;
 import uoc.ds.pr.exceptions.*;
 import uoc.ds.pr.model.*;
@@ -14,7 +11,6 @@ import uoc.ds.pr.util.OrderedVector;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
-import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
@@ -212,7 +208,7 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
         if (sportEvent == null) {
             throw new SportEventNotFoundException();
         }
-        if (sportEvent.getNumWorkers()==0) {
+        if (sportEvent.getNumWorkers() == 0) {
             throw new NoWorkersException();
         }
         return sportEvent.getWorkers();
@@ -220,7 +216,7 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
 
     @Override
     public Iterator<Worker> getWorkersByRole(String roleId) throws NoWorkersException {
-        for (Role r: roles) {
+        for (Role r : roles) {
             if (r.getRoleId() == roleId) {
                 if (r.numWorkers() == 0) {
                     throw new NoWorkersException();
@@ -229,6 +225,31 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
             }
         }
         return null;
+    }
+
+    @Override
+    public Level getLevel(String playerId) throws PlayerNotFoundException {
+        int playerNumRating = numRatings(playerId);
+
+        if (playerNumRating >= 0 && playerNumRating < 2) {
+            return Level.ROOKIE;
+        } else if (playerNumRating >= 2 && playerNumRating < 5) {
+            return Level.PRO;
+        } else if (playerNumRating >= 5 && playerNumRating < 10) {
+            return Level.EXPERT;
+        } else if (playerNumRating >= 10 && playerNumRating < 15) {
+            return Level.MASTER;
+        }
+        return Level.LEGEND;
+    }
+
+    @Override
+    public int numRatings(String idPlayer) throws PlayerNotFoundException {
+        Player player = getPlayer(idPlayer);
+        if (player == null) {
+            throw new PlayerNotFoundException();
+        }
+        return player.getNumRatings();
     }
 
 
@@ -382,6 +403,7 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
         }
 
         sportEvent.addRating(rating, message, player);
+        player.increaseNumRating();
         updateBestSportEvent(sportEvent);
     }
 

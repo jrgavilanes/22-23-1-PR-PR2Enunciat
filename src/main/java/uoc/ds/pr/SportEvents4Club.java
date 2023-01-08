@@ -41,6 +41,10 @@ public interface SportEvents4Club {
 
     public Iterator<Worker> getWorkersByRole(String roleId) throws NoWorkersException;
 
+    public Level getLevel(String playerId) throws PlayerNotFoundException;
+
+    int numRatings(String idPlayer) throws PlayerNotFoundException;
+
     enum Status {
         PENDING,
         ENABLED,

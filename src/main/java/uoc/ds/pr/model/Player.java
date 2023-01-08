@@ -13,7 +13,17 @@ public class Player {
     private List<SportEvent> events;
     private LocalDate birthday;
 
-	public Player(String idUser, String name, String surname, LocalDate birthday) {
+    private int numRatings = 0;
+
+    public int getNumRatings() {
+        return numRatings;
+    }
+
+    public void increaseNumRating() {
+        this.numRatings++;
+    }
+
+    public Player(String idUser, String name, String surname, LocalDate birthday) {
         this.setId(idUser);
         this.setName(name);
         this.setSurname(surname);

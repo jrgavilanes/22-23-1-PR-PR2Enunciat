@@ -202,92 +202,92 @@ public class SportEvents4ClubPR2Test extends SportEvents4ClubPR1Test {
     }
 
 
-//    @Test
-//    public void getLevelTest() throws DSException {
-//        //
-//        // GIVEN:
-//        //
-//        initialState();
-//
-//        Assert.assertThrows(PlayerNotFoundException.class, () ->
-//               sportEvents4Club.getLevel("XXXXXXXX"));
-//
-//        SportEvents4Club.Level levelP1 = sportEvents4Club.getLevel("idPlayer1");
-//        Assert.assertEquals(SportEvents4Club.Level.ROOKIE, levelP1);
-//       // Assert.assertEquals();
-//
-//        super.addRatingAndBestEventTest();
-//
-//        levelP1 = sportEvents4Club.getLevel("idPlayer1");
-//        Assert.assertEquals(2, sportEvents4Club.numRatings("idPlayer1"));
-//        Assert.assertEquals(SportEvents4Club.Level.PRO, levelP1);
-//
-//        SportEvents4Club.Level levelP2 = sportEvents4Club.getLevel("idPlayer2");
-//        Assert.assertEquals(2, sportEvents4Club.numRatings("idPlayer2"));
-//        Assert.assertEquals(SportEvents4Club.Level.PRO, levelP2);
-//
-//        SportEvents4Club.Level levelP3 = sportEvents4Club.getLevel("idPlayer3");
-//        Assert.assertEquals(1, sportEvents4Club.numRatings("idPlayer3"));
-//        Assert.assertEquals(SportEvents4Club.Level.ROOKIE, levelP3);
-//
-//        SportEvents4Club.Level levelP4 = sportEvents4Club.getLevel("idPlayer4");
-//        Assert.assertEquals(1, sportEvents4Club.numRatings("idPlayer4"));
-//        Assert.assertEquals(SportEvents4Club.Level.ROOKIE, levelP4);
-//
-//        SportEvents4Club.Level levelP5 = sportEvents4Club.getLevel("idPlayer5");
-//        Assert.assertEquals(1, sportEvents4Club.numRatings("idPlayer5"));
-//        Assert.assertEquals(SportEvents4Club.Level.ROOKIE, levelP5);
-//
-//        SportEvents4Club.Level levelP6 = sportEvents4Club.getLevel("idPlayer6");
-//        Assert.assertEquals(1, sportEvents4Club.numRatings("idPlayer6"));
-//        Assert.assertEquals(SportEvents4Club.Level.ROOKIE, levelP6);
-//
-//        SportEvents4Club.Level levelP7 = sportEvents4Club.getLevel("idPlayer7");
-//        Assert.assertEquals(2, sportEvents4Club.numRatings("idPlayer7"));
-//        Assert.assertEquals(SportEvents4Club.Level.PRO, levelP7);
-//
-//        SportEvents4Club.Level levelP8 = sportEvents4Club.getLevel("idPlayer8");
-//        Assert.assertEquals(1, sportEvents4Club.numRatings("idPlayer8"));
-//        Assert.assertEquals(SportEvents4Club.Level.ROOKIE, levelP8);
-//
-//        SportEvents4Club.Level levelP9 = sportEvents4Club.getLevel("idPlayer9");
-//        Assert.assertEquals(1, sportEvents4Club.numRatings("idPlayer9"));
-//        Assert.assertEquals(SportEvents4Club.Level.ROOKIE, levelP9);
-//
-//        sportEvents4Club.addRating("idPlayer1","EV-1101",
-//                SportEvents4Club.Rating.FIVE, "Very good");
-//
-//        sportEvents4Club.addRating("idPlayer1","EV-1101",
-//                SportEvents4Club.Rating.FIVE, "Very good");
-//
-//        Assert.assertEquals(4, sportEvents4Club.numRatings("idPlayer1"));
-//        Assert.assertEquals(SportEvents4Club.Level.PRO, sportEvents4Club.getLevel("idPlayer1"));
-//
-//        sportEvents4Club.addRating("idPlayer1","EV-1101",
-//                SportEvents4Club.Rating.FIVE, "Very good");
-//
-//        Assert.assertEquals(5, sportEvents4Club.numRatings("idPlayer1"));
-//        Assert.assertEquals(SportEvents4Club.Level.EXPERT, sportEvents4Club.getLevel("idPlayer1"));
-//
-//        for (int i=0; i<5; i++) {
-//            sportEvents4Club.addRating("idPlayer1","EV-1101",
-//                    SportEvents4Club.Rating.FIVE, "Very good");
-//        }
-//
-//        Assert.assertEquals(10, sportEvents4Club.numRatings("idPlayer1"));
-//        Assert.assertEquals(SportEvents4Club.Level.MASTER, sportEvents4Club.getLevel("idPlayer1"));
-//
-//        for (int i=0; i<5; i++) {
-//            sportEvents4Club.addRating("idPlayer1","EV-1101",
-//                    SportEvents4Club.Rating.FIVE, "Very good");
-//        }
-//
-//        Assert.assertEquals(15, sportEvents4Club.numRatings("idPlayer1"));
-//        Assert.assertEquals(SportEvents4Club.Level.LEGEND, sportEvents4Club.getLevel("idPlayer1"));
-//
-//    }
-//
-//
+    @Test
+    public void getLevelTest() throws DSException {
+        //
+        // GIVEN:
+        //
+        initialState();
+
+        Assert.assertThrows(PlayerNotFoundException.class, () ->
+               sportEvents4Club.getLevel("XXXXXXXX"));
+
+        SportEvents4Club.Level levelP1 = sportEvents4Club.getLevel("idPlayer1");
+        Assert.assertEquals(SportEvents4Club.Level.ROOKIE, levelP1);
+       // Assert.assertEquals();
+
+        super.addRatingAndBestEventTest();
+
+        levelP1 = sportEvents4Club.getLevel("idPlayer1");
+        Assert.assertEquals(2, sportEvents4Club.numRatings("idPlayer1"));
+        Assert.assertEquals(SportEvents4Club.Level.PRO, levelP1);
+
+        SportEvents4Club.Level levelP2 = sportEvents4Club.getLevel("idPlayer2");
+        Assert.assertEquals(2, sportEvents4Club.numRatings("idPlayer2"));
+        Assert.assertEquals(SportEvents4Club.Level.PRO, levelP2);
+
+        SportEvents4Club.Level levelP3 = sportEvents4Club.getLevel("idPlayer3");
+        Assert.assertEquals(1, sportEvents4Club.numRatings("idPlayer3"));
+        Assert.assertEquals(SportEvents4Club.Level.ROOKIE, levelP3);
+
+        SportEvents4Club.Level levelP4 = sportEvents4Club.getLevel("idPlayer4");
+        Assert.assertEquals(1, sportEvents4Club.numRatings("idPlayer4"));
+        Assert.assertEquals(SportEvents4Club.Level.ROOKIE, levelP4);
+
+        SportEvents4Club.Level levelP5 = sportEvents4Club.getLevel("idPlayer5");
+        Assert.assertEquals(1, sportEvents4Club.numRatings("idPlayer5"));
+        Assert.assertEquals(SportEvents4Club.Level.ROOKIE, levelP5);
+
+        SportEvents4Club.Level levelP6 = sportEvents4Club.getLevel("idPlayer6");
+        Assert.assertEquals(1, sportEvents4Club.numRatings("idPlayer6"));
+        Assert.assertEquals(SportEvents4Club.Level.ROOKIE, levelP6);
+
+        SportEvents4Club.Level levelP7 = sportEvents4Club.getLevel("idPlayer7");
+        Assert.assertEquals(2, sportEvents4Club.numRatings("idPlayer7"));
+        Assert.assertEquals(SportEvents4Club.Level.PRO, levelP7);
+
+        SportEvents4Club.Level levelP8 = sportEvents4Club.getLevel("idPlayer8");
+        Assert.assertEquals(1, sportEvents4Club.numRatings("idPlayer8"));
+        Assert.assertEquals(SportEvents4Club.Level.ROOKIE, levelP8);
+
+        SportEvents4Club.Level levelP9 = sportEvents4Club.getLevel("idPlayer9");
+        Assert.assertEquals(1, sportEvents4Club.numRatings("idPlayer9"));
+        Assert.assertEquals(SportEvents4Club.Level.ROOKIE, levelP9);
+
+        sportEvents4Club.addRating("idPlayer1","EV-1101",
+                SportEvents4Club.Rating.FIVE, "Very good");
+
+        sportEvents4Club.addRating("idPlayer1","EV-1101",
+                SportEvents4Club.Rating.FIVE, "Very good");
+
+        Assert.assertEquals(4, sportEvents4Club.numRatings("idPlayer1"));
+        Assert.assertEquals(SportEvents4Club.Level.PRO, sportEvents4Club.getLevel("idPlayer1"));
+
+        sportEvents4Club.addRating("idPlayer1","EV-1101",
+                SportEvents4Club.Rating.FIVE, "Very good");
+
+        Assert.assertEquals(5, sportEvents4Club.numRatings("idPlayer1"));
+        Assert.assertEquals(SportEvents4Club.Level.EXPERT, sportEvents4Club.getLevel("idPlayer1"));
+
+        for (int i=0; i<5; i++) {
+            sportEvents4Club.addRating("idPlayer1","EV-1101",
+                    SportEvents4Club.Rating.FIVE, "Very good");
+        }
+
+        Assert.assertEquals(10, sportEvents4Club.numRatings("idPlayer1"));
+        Assert.assertEquals(SportEvents4Club.Level.MASTER, sportEvents4Club.getLevel("idPlayer1"));
+
+        for (int i=0; i<5; i++) {
+            sportEvents4Club.addRating("idPlayer1","EV-1101",
+                    SportEvents4Club.Rating.FIVE, "Very good");
+        }
+
+        Assert.assertEquals(15, sportEvents4Club.numRatings("idPlayer1"));
+        Assert.assertEquals(SportEvents4Club.Level.LEGEND, sportEvents4Club.getLevel("idPlayer1"));
+
+    }
+
+
 //    @Test
 //    public void getSubstitutesTest() throws DSException {
 //        //
