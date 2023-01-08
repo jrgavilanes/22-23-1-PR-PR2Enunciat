@@ -43,7 +43,9 @@ public interface SportEvents4Club {
 
     public Level getLevel(String playerId) throws PlayerNotFoundException;
 
-    int numRatings(String idPlayer) throws PlayerNotFoundException;
+    public int numRatings(String idPlayer) throws PlayerNotFoundException;
+
+    public Iterator<Enrollment> getSubstitutes(String eventId) throws SportEventNotFoundException, NoSubstitutesException;
 
     enum Status {
         PENDING,

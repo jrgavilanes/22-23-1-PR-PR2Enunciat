@@ -288,69 +288,66 @@ public class SportEvents4ClubPR2Test extends SportEvents4ClubPR1Test {
     }
 
 
-//    @Test
-//    public void getSubstitutesTest() throws DSException {
-//        //
-//        // GIVEN:
-//        //
-//        initialState();
-//        Assert.assertEquals(0, this.sportEvents4Club.numSubstitutesBySportEvent("EV-1101"));
-//        Assert.assertEquals(7, this.sportEvents4Club.numPlayersBySportEvent("EV-1101"));
-//
-//        Assert.assertThrows(SportEventNotFoundException.class, () ->
-//                sportEvents4Club.getSubstitutes("EV-XXXXX"));
-//
-//        Assert.assertThrows(NoSubstitutesException.class, () ->
-//                sportEvents4Club.getSubstitutes("EV-1101"));
-//
-//
-//        super.signUpEventTest();
-//        Assert.assertEquals(2, this.sportEvents4Club.numSubstitutesBySportEvent("EV-1104"));
-//        Assert.assertEquals(7, this.sportEvents4Club.numPlayersBySportEvent("EV-1104"));
-//
-//        sportEvents4Club.signUpEvent("idPlayer10", "EV-1101");
-//        for (int i=0; i<10; i++) {
-//            sportEvents4Club.addRating("idPlayer10","EV-1101",
-//                    SportEvents4Club.Rating.FIVE, "Very good");
-//        }
-//
-//        sportEvents4Club.signUpEvent("idPlayer11", "EV-1101");
-//        for (int i=0; i<25; i++) {
-//            sportEvents4Club.addRating("idPlayer11","EV-1101",
-//                    SportEvents4Club.Rating.FIVE, "Very good");
-//        }
-//
-//        Assert.assertThrows(LimitExceededException.class, () ->
-//                sportEvents4Club.signUpEvent("idPlayer11", "EV-1104"));
-//
-//        Assert.assertThrows(LimitExceededException.class, () ->
-//                sportEvents4Club.signUpEvent("idPlayer10", "EV-1104"));
-//
-//        Assert.assertEquals(4, this.sportEvents4Club.numSubstitutesBySportEvent("EV-1104"));
-//        Assert.assertEquals(9, this.sportEvents4Club.numPlayersBySportEvent("EV-1104"));
-//
-//
-//        Iterator<Enrollment> it = sportEvents4Club.getSubstitutes("EV-1104");
-//
-//        Player player11 = it.next().getPlayer();
-//        Assert.assertEquals("idPlayer11", player11.getId());
-//        Assert.assertEquals(SportEvents4Club.Level.LEGEND, player11.getLevel());
-//
-//        Player player10 = it.next().getPlayer();
-//        Assert.assertEquals("idPlayer10", player10.getId());
-//        Assert.assertEquals(SportEvents4Club.Level.MASTER, player10.getLevel());
-//
-//        Player player6 = it.next().getPlayer();
-//        Assert.assertEquals("idPlayer6", player6.getId());
-//        Assert.assertEquals(SportEvents4Club.Level.ROOKIE, player6.getLevel());
-//
-//        Player player7 = it.next().getPlayer();
-//        Assert.assertEquals("idPlayer7", player7.getId());
-//        Assert.assertEquals(SportEvents4Club.Level.ROOKIE, player7.getLevel());
-//
-//
-//
-//    }
+    @Test
+    public void getSubstitutesTest() throws DSException {
+        //
+        // GIVEN:
+        //
+        initialState();
+        Assert.assertEquals(0, this.sportEvents4Club.numSubstitutesBySportEvent("EV-1101"));
+        Assert.assertEquals(7, this.sportEvents4Club.numPlayersBySportEvent("EV-1101"));
+
+        Assert.assertThrows(SportEventNotFoundException.class, () ->
+                sportEvents4Club.getSubstitutes("EV-XXXXX"));
+
+        Assert.assertThrows(NoSubstitutesException.class, () ->
+                sportEvents4Club.getSubstitutes("EV-1101"));
+
+
+        super.signUpEventTest();
+        Assert.assertEquals(2, this.sportEvents4Club.numSubstitutesBySportEvent("EV-1104"));
+        Assert.assertEquals(7, this.sportEvents4Club.numPlayersBySportEvent("EV-1104"));
+
+        sportEvents4Club.signUpEvent("idPlayer10", "EV-1101");
+        for (int i=0; i<10; i++) {
+            sportEvents4Club.addRating("idPlayer10","EV-1101",
+                    SportEvents4Club.Rating.FIVE, "Very good");
+        }
+
+        sportEvents4Club.signUpEvent("idPlayer11", "EV-1101");
+        for (int i=0; i<25; i++) {
+            sportEvents4Club.addRating("idPlayer11","EV-1101",
+                    SportEvents4Club.Rating.FIVE, "Very good");
+        }
+
+        Assert.assertThrows(LimitExceededException.class, () ->
+                sportEvents4Club.signUpEvent("idPlayer11", "EV-1104"));
+
+        Assert.assertThrows(LimitExceededException.class, () ->
+                sportEvents4Club.signUpEvent("idPlayer10", "EV-1104"));
+
+        Assert.assertEquals(4, this.sportEvents4Club.numSubstitutesBySportEvent("EV-1104"));
+        Assert.assertEquals(9, this.sportEvents4Club.numPlayersBySportEvent("EV-1104"));
+
+
+        Iterator<Enrollment> it = sportEvents4Club.getSubstitutes("EV-1104");
+
+        Player player11 = it.next().getPlayer();
+        Assert.assertEquals("idPlayer11", player11.getId());
+        Assert.assertEquals(SportEvents4Club.Level.LEGEND, player11.getLevel());
+
+        Player player10 = it.next().getPlayer();
+        Assert.assertEquals("idPlayer10", player10.getId());
+        Assert.assertEquals(SportEvents4Club.Level.MASTER, player10.getLevel());
+
+        Player player6 = it.next().getPlayer();
+        Assert.assertEquals("idPlayer6", player6.getId());
+        Assert.assertEquals(SportEvents4Club.Level.ROOKIE, player6.getLevel());
+
+        Player player7 = it.next().getPlayer();
+        Assert.assertEquals("idPlayer7", player7.getId());
+        Assert.assertEquals(SportEvents4Club.Level.ROOKIE, player7.getLevel());
+    }
 
 //    @Test
 //    public void addAttender() throws DSException {
@@ -384,7 +381,7 @@ public class SportEvents4ClubPR2Test extends SportEvents4ClubPR1Test {
 //        Assert.assertEquals(7, sportEventEV1101.numPlayers());
 //
 //    }
-//
+
 //    @Test
 //    public void getAttenderTest() throws DSException {
 //        initialState();

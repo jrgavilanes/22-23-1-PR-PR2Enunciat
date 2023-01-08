@@ -245,6 +245,15 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
         return player.getNumRatings();
     }
 
+    @Override
+    public Iterator<Enrollment> getSubstitutes(String eventId) throws SportEventNotFoundException, NoSubstitutesException {
+        SportEvent event = sportEvents.get(eventId);
+        if (event == null) {
+            throw new SportEventNotFoundException();
+        }
+        return event.getSubstitutes();
+    }
+
 
     public void addPlayer(String playerId, String name, String surname, LocalDate birthday) {
         Player u = getPlayer(playerId);
@@ -514,40 +523,6 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
                 return (int) ChronoUnit.DAYS.between(d2, d1);
             }
         }
-
-        @Override
-        public Comparator<File> reversed() {
-            return Comparator.super.reversed();
-        }
-
-        @Override
-        public Comparator<File> thenComparing(Comparator<? super File> other) {
-            return Comparator.super.thenComparing(other);
-        }
-
-        @Override
-        public <U> Comparator<File> thenComparing(Function<? super File, ? extends U> keyExtractor, Comparator<? super U> keyComparator) {
-            return Comparator.super.thenComparing(keyExtractor, keyComparator);
-        }
-
-        @Override
-        public <U extends Comparable<? super U>> Comparator<File> thenComparing(Function<? super File, ? extends U> keyExtractor) {
-            return Comparator.super.thenComparing(keyExtractor);
-        }
-
-        @Override
-        public Comparator<File> thenComparingInt(ToIntFunction<? super File> keyExtractor) {
-            return Comparator.super.thenComparingInt(keyExtractor);
-        }
-
-        @Override
-        public Comparator<File> thenComparingLong(ToLongFunction<? super File> keyExtractor) {
-            return Comparator.super.thenComparingLong(keyExtractor);
-        }
-
-        @Override
-        public Comparator<File> thenComparingDouble(ToDoubleFunction<? super File> keyExtractor) {
-            return Comparator.super.thenComparingDouble(keyExtractor);
-        }
     };
+
 }

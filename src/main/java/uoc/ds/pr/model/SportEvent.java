@@ -1,5 +1,6 @@
 package uoc.ds.pr.model;
 
+import edu.uoc.ds.adt.nonlinear.PriorityQueue;
 import edu.uoc.ds.adt.sequential.LinkedList;
 import edu.uoc.ds.adt.sequential.List;
 import edu.uoc.ds.adt.sequential.Queue;
@@ -7,11 +8,17 @@ import edu.uoc.ds.adt.sequential.QueueArrayImpl;
 import edu.uoc.ds.traversal.Iterator;
 import uoc.ds.pr.SportEvents4Club;
 import uoc.ds.pr.exceptions.NoSportEventsException;
+import uoc.ds.pr.exceptions.NoSubstitutesException;
 import uoc.ds.pr.exceptions.WorkerAlreadyAssignedException;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.Hashtable;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 import static uoc.ds.pr.SportEvents4Club.MAX_NUM_ENROLLMENT;
 
@@ -48,7 +55,7 @@ public class SportEvent implements Comparable<SportEvent> {
     }
 
     public int numAttenders() {
-       return numAttenders;
+        return numAttenders;
     }
 
     public void addAttender(Attender attender) {
@@ -162,7 +169,8 @@ public class SportEvent implements Comparable<SportEvent> {
     }
 
     public void addEnrollment(Player player, boolean isSubstitute) {
-        enrollments.add(new Enrollment(player, isSubstitute));
+        Enrollment e = new Enrollment(player, isSubstitute);
+        enrollments.add(e);
     }
 
     public boolean is(String eventId) {
@@ -216,5 +224,27 @@ public class SportEvent implements Comparable<SportEvent> {
     public int getNumWorkers() {
         return workers.size();
     }
+
+    public Iterator<Enrollment> getSubstitutes() throws NoSubstitutesException {
+        if (numSubstitutes == 0) {
+            throw new NoSubstitutesException();
+        }
+        Queue<Enrollment> substitutes = new PriorityQueue<>(playerByLevelComparator);
+        Iterator<Enrollment> it = enrollments.values();
+        while (it.hasNext()) {
+            Enrollment e = it.next();
+            if (e.isSubtitute) {
+                substitutes.add(e);
+            }
+        }
+        return substitutes.values();
+    }
+
+    Comparator<Enrollment> playerByLevelComparator = new Comparator<Enrollment>() {
+        @Override
+        public int compare(Enrollment e1, Enrollment e2) {
+            return e1.player.getLevel().ordinal() - e2.player.getLevel().ordinal();
+        }
+    };
 
 }
