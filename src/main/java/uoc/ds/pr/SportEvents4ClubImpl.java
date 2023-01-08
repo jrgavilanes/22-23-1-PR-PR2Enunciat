@@ -229,18 +229,11 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
 
     @Override
     public Level getLevel(String playerId) throws PlayerNotFoundException {
-        int playerNumRating = numRatings(playerId);
-
-        if (playerNumRating >= 0 && playerNumRating < 2) {
-            return Level.ROOKIE;
-        } else if (playerNumRating >= 2 && playerNumRating < 5) {
-            return Level.PRO;
-        } else if (playerNumRating >= 5 && playerNumRating < 10) {
-            return Level.EXPERT;
-        } else if (playerNumRating >= 10 && playerNumRating < 15) {
-            return Level.MASTER;
+        Player player = getPlayer(playerId);
+        if (player == null) {
+            throw new PlayerNotFoundException();
         }
-        return Level.LEGEND;
+        return player.getLevel();
     }
 
     @Override

@@ -351,7 +351,7 @@ public class SportEvents4ClubPR2Test extends SportEvents4ClubPR1Test {
 //
 //
 //    }
-//
+
 //    @Test
 //    public void addAttender() throws DSException {
 //        //

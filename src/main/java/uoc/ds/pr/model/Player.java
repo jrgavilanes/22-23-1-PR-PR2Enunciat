@@ -3,6 +3,8 @@ package uoc.ds.pr.model;
 import edu.uoc.ds.adt.sequential.LinkedList;
 import edu.uoc.ds.adt.sequential.List;
 import edu.uoc.ds.traversal.Iterator;
+import uoc.ds.pr.SportEvents4Club;
+import uoc.ds.pr.exceptions.PlayerNotFoundException;
 
 import java.time.LocalDate;
 
@@ -95,5 +97,18 @@ public class Player {
 
     public boolean hasEvents() {
         return this.events.size()>0;
+    }
+
+    public SportEvents4Club.Level getLevel() {
+        if (numRatings >= 0 && numRatings < 2) {
+            return SportEvents4Club.Level.ROOKIE;
+        } else if (numRatings >= 2 && numRatings < 5) {
+            return SportEvents4Club.Level.PRO;
+        } else if (numRatings >= 5 && numRatings < 10) {
+            return SportEvents4Club.Level.EXPERT;
+        } else if (numRatings >= 10 && numRatings < 15) {
+            return SportEvents4Club.Level.MASTER;
+        }
+        return SportEvents4Club.Level.LEGEND;
     }
 }
