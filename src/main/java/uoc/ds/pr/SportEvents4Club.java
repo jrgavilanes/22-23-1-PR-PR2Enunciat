@@ -15,11 +15,31 @@ public interface SportEvents4Club {
 
     public void addWorker(String dni, String name, String surname, LocalDate birthday, String roleId);
 
+    public void assignWorker(String dni, String eventId) throws SportEventNotFoundException, WorkerNotFoundException, WorkerAlreadyAssignedException;
+
     public void addAttender(String phone, String name, String eventId) throws NoSportEventsException, AttenderAlreadyExistsException, LimitExceededException;
 
     public Attender getAttender(String phone, String eventId) throws NoSportEventsException, AttenderNotFoundException;
 
     public Iterator<Attender> getAttenders(String eventId) throws NoSportEventsException, NoAttendersException;
+
+    int numRoles();
+
+    int numWorkersByRole(String roleId);
+
+    int numWorkersBySportEvent(String eventId);
+
+    Worker getWorker(String dni);
+
+    int numWorkers();
+
+    Role getRole(String roleId);
+
+    int numAttenders(String eventId);
+
+    public Iterator<Worker> getWorkersBySportEvent(String eventId) throws SportEventNotFoundException, NoWorkersException;
+
+    public Iterator<Worker> getWorkersByRole(String roleId) throws NoWorkersException;
 
     enum Status {
         PENDING,
@@ -58,6 +78,8 @@ public interface SportEvents4Club {
     public static final int MAX_NUM_ENROLLMENT= 150;
 
     public static final int MAX_NUM_PLAYER = 120;
+
+    public static final int MAX_NUM_ROLES = 120;
     public static final int MAX_NUM_ORGANIZING_ENTITIES = 20;
 
 

@@ -23,55 +23,6 @@ import java.util.function.ToLongFunction;
 
 public class SportEvents4ClubImpl implements SportEvents4Club {
 
-    Comparator<File> fileComparator = new Comparator<File>() {
-        @Override
-        public int compare(File o1, File o2) {
-            LocalDate d1 = o1.getStartDate();
-            LocalDate d2 = o2.getStartDate();
-
-            if (d1.equals(d2)) {
-                return o2.getType().ordinal() - o1.getType().ordinal();
-            } else {
-                return (int) ChronoUnit.DAYS.between(d2, d1);
-            }
-        }
-
-        @Override
-        public Comparator<File> reversed() {
-            return Comparator.super.reversed();
-        }
-
-        @Override
-        public Comparator<File> thenComparing(Comparator<? super File> other) {
-            return Comparator.super.thenComparing(other);
-        }
-
-        @Override
-        public <U> Comparator<File> thenComparing(Function<? super File, ? extends U> keyExtractor, Comparator<? super U> keyComparator) {
-            return Comparator.super.thenComparing(keyExtractor, keyComparator);
-        }
-
-        @Override
-        public <U extends Comparable<? super U>> Comparator<File> thenComparing(Function<? super File, ? extends U> keyExtractor) {
-            return Comparator.super.thenComparing(keyExtractor);
-        }
-
-        @Override
-        public Comparator<File> thenComparingInt(ToIntFunction<? super File> keyExtractor) {
-            return Comparator.super.thenComparingInt(keyExtractor);
-        }
-
-        @Override
-        public Comparator<File> thenComparingLong(ToLongFunction<? super File> keyExtractor) {
-            return Comparator.super.thenComparingLong(keyExtractor);
-        }
-
-        @Override
-        public Comparator<File> thenComparingDouble(ToDoubleFunction<? super File> keyExtractor) {
-            return Comparator.super.thenComparingDouble(keyExtractor);
-        }
-    };
-
     private HashTable<String, Attender> attenders;
     private HashTable<String, Worker> workers;
     private Player[] players;
@@ -107,6 +58,7 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
         rejectedFiles = 0;
         mostActivePlayer = null;
         bestSportEvent = new OrderedVector<SportEvent>(MAX_NUM_SPORT_EVENTS, SportEvent.CMP_V);
+        roles = new Role[MAX_NUM_ROLES];
     }
 
 
@@ -115,9 +67,11 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
         for (Role r : roles) {
             if (r == null) {
                 roles[numRoles++] = new Role(roleId, description);
-            } else if (Objects.equals(r.getRoleId(), roleId)) {
+                break;
+            } else if (r.getRoleId() == roleId) {
                 r.setRoleId(roleId);
                 r.setDescription(description);
+                break;
             }
         }
     }
@@ -126,13 +80,48 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
     public void addWorker(String dni, String name, String surname, LocalDate birthday, String roleId) {
         Worker w = workers.get(dni);
         if (w == null) {
-            workers.put(dni, new Worker(dni, name, surname, birthday, roleId));
+            Worker newWorker = new Worker(dni, name, surname, birthday, roleId);
+            workers.put(dni, newWorker);
+            for (Role r : roles) {
+                if (r.getRoleId() == roleId) {
+                    r.addWorker(newWorker);
+                    break;
+                }
+            }
         } else {
             w.setName(name);
             w.setSurname(surname);
             w.setBirthday(birthday);
-            w.setRoleId(roleId);
+            if (w.getRoleId() != roleId) {
+                // Remove old role
+                for (Role r : roles) {
+                    if (r.getRoleId() == w.getRoleId()) {
+                        r.removeWorker(w.getDni());
+                        break;
+                    }
+                }
+                // Set new Role
+                w.setRoleId(roleId);
+                // Update Roles record.
+                for (Role r : roles) {
+                    if (r.getRoleId() == roleId) {
+                        r.addWorker(w);
+                        break;
+                    }
+                }
+            }
         }
+    }
+
+    @Override
+    public void assignWorker(String dni, String eventId) throws SportEventNotFoundException, WorkerNotFoundException, WorkerAlreadyAssignedException {
+        SportEvent sportEvent = sportEvents.get(eventId);
+        if (sportEvent == null) throw new SportEventNotFoundException();
+
+        Worker worker = workers.get(dni);
+        if (worker == null) throw new WorkerNotFoundException();
+
+        sportEvent.assignWorker(worker);
     }
 
     @Override
@@ -163,6 +152,83 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
         if (sportEvent.numAttenders() == 0) throw new NoAttendersException();
 
         return (Iterator<Attender>) sportEvent.getAttenders().values();
+    }
+
+    @Override
+    public int numRoles() {
+        return numRoles;
+    }
+
+    @Override
+    public int numWorkersByRole(String roleId) {
+        for (Role r : roles) {
+            if (r.getRoleId() == roleId) {
+                return r.numWorkers();
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    public int numWorkersBySportEvent(String eventId) {
+        SportEvent event = sportEvents.get(eventId);
+        if (event == null) {
+            return 0;
+        }
+        return event.getNumWorkers();
+    }
+
+    @Override
+    public Worker getWorker(String dni) {
+        Worker worker = workers.get(dni);
+        return worker;
+    }
+
+    @Override
+    public int numWorkers() {
+        return workers.size();
+    }
+
+    @Override
+    public Role getRole(String roleId) {
+        for (Role role : roles) {
+            if (role.getRoleId() == roleId) return role;
+        }
+        return null;
+    }
+
+    @Override
+    public int numAttenders(String eventId) {
+        SportEvent event = sportEvents.get(eventId);
+        if (event == null) {
+            return 0;
+        }
+        return event.numAttenders();
+    }
+
+    @Override
+    public Iterator<Worker> getWorkersBySportEvent(String eventId) throws SportEventNotFoundException, NoWorkersException {
+        SportEvent sportEvent = getSportEvent(eventId);
+        if (sportEvent == null) {
+            throw new SportEventNotFoundException();
+        }
+        if (sportEvent.getNumWorkers()==0) {
+            throw new NoWorkersException();
+        }
+        return sportEvent.getWorkers();
+    }
+
+    @Override
+    public Iterator<Worker> getWorkersByRole(String roleId) throws NoWorkersException {
+        for (Role r: roles) {
+            if (r.getRoleId() == roleId) {
+                if (r.numWorkers() == 0) {
+                    throw new NoWorkersException();
+                }
+                return r.getWorkers();
+            }
+        }
+        return null;
     }
 
 
@@ -420,4 +486,53 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
     public SportEvent getSportEvent(String eventId) {
         return sportEvents.get(eventId);
     }
+
+    Comparator<File> fileComparator = new Comparator<File>() {
+        @Override
+        public int compare(File o1, File o2) {
+            LocalDate d1 = o1.getStartDate();
+            LocalDate d2 = o2.getStartDate();
+
+            if (d1.equals(d2)) {
+                return o2.getType().ordinal() - o1.getType().ordinal();
+            } else {
+                return (int) ChronoUnit.DAYS.between(d2, d1);
+            }
+        }
+
+        @Override
+        public Comparator<File> reversed() {
+            return Comparator.super.reversed();
+        }
+
+        @Override
+        public Comparator<File> thenComparing(Comparator<? super File> other) {
+            return Comparator.super.thenComparing(other);
+        }
+
+        @Override
+        public <U> Comparator<File> thenComparing(Function<? super File, ? extends U> keyExtractor, Comparator<? super U> keyComparator) {
+            return Comparator.super.thenComparing(keyExtractor, keyComparator);
+        }
+
+        @Override
+        public <U extends Comparable<? super U>> Comparator<File> thenComparing(Function<? super File, ? extends U> keyExtractor) {
+            return Comparator.super.thenComparing(keyExtractor);
+        }
+
+        @Override
+        public Comparator<File> thenComparingInt(ToIntFunction<? super File> keyExtractor) {
+            return Comparator.super.thenComparingInt(keyExtractor);
+        }
+
+        @Override
+        public Comparator<File> thenComparingLong(ToLongFunction<? super File> keyExtractor) {
+            return Comparator.super.thenComparingLong(keyExtractor);
+        }
+
+        @Override
+        public Comparator<File> thenComparingDouble(ToDoubleFunction<? super File> keyExtractor) {
+            return Comparator.super.thenComparingDouble(keyExtractor);
+        }
+    };
 }

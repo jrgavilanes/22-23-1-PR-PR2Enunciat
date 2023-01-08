@@ -5,208 +5,203 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import uoc.ds.pr.exceptions.AttenderNotFoundException;
-import uoc.ds.pr.exceptions.DSException;
-import uoc.ds.pr.exceptions.NoAttendersException;
-import uoc.ds.pr.exceptions.SportEventNotFoundException;
-import uoc.ds.pr.model.Attender;
-import uoc.ds.pr.model.OrganizingEntity;
-import uoc.ds.pr.model.SportEvent;
+import uoc.ds.pr.exceptions.*;
+import uoc.ds.pr.model.*;
 
 import static uoc.ds.pr.util.DateUtils.createLocalDate;
 
-//public class SportEvents4ClubPR2Test extends SportEvents4ClubPR1Test {
-//
-//
-//    @Before
-//    public void setUp() throws Exception {
-//        this.sportEvents4Club = FactorySportEvents4Club.getSportEvents4ClubPR2();
-//    }
-//
-//    @After
-//    public void tearDown() {
-//        this.sportEvents4Club = null;
-//    }
-//
-//
-//    public void initialState() {
-//
-//        Assert.assertEquals(5, sportEvents4Club.numRoles());
-//        Assert.assertEquals(2, sportEvents4Club.numWorkersByRole("R1"));
-//        Assert.assertEquals(1, sportEvents4Club.numWorkersByRole("R2"));
-//        Assert.assertEquals(2, sportEvents4Club.numWorkersByRole("R3"));
-//        Assert.assertEquals(2, sportEvents4Club.numWorkersByRole("R4"));
-//        Assert.assertEquals(0, sportEvents4Club.numWorkersByRole("R5"));
-//        Assert.assertEquals(0, sportEvents4Club.numWorkersBySportEvent("EV-1103"));
-//        Assert.assertEquals(0, sportEvents4Club.numWorkersBySportEvent("EV-1101"));
-//        Assert.assertEquals(13, sportEvents4Club.numAttenders("EV-1101"));
-//        Assert.assertEquals(0, sportEvents4Club.numAttenders("EV-1102"));
-//        Assert.assertEquals(6, sportEvents4Club.numAttenders("EV-1103"));
-//        Assert.assertEquals(0, sportEvents4Club.numAttenders("EV-1104"));
-//        Assert.assertEquals(4, sportEvents4Club.numAttenders("EV-1105"));
-//        Assert.assertEquals(3, sportEvents4Club.numAttenders("EV-1106"));
-//    }
-//
-//    @Test
-//    public void addRoleTest() {
-//        // GIVEN:
-//        initialState();
-//        //
-//
-//        sportEvents4Club.addRole("R6", "trainer");
-//        Assert.assertEquals(6, sportEvents4Club.numRoles());
-//
-//        sportEvents4Club.addRole("R7", "XXXXX");
-//        Assert.assertEquals(7, sportEvents4Club.numRoles());
-//        sportEvents4Club.addRole("R7", "Agent");
-//        Assert.assertEquals(7, sportEvents4Club.numRoles());
-//        Role r7 = sportEvents4Club.getRole("R7");
-//        Assert.assertEquals("Agent", r7.getDescription());
-//    }
-//
-//    @Test
-//    public void adWorkerTest() {
-//        // GIVEN:
-//        initialState();
-//        //
-//
-//        ////
-//        // add W89
-//        ////
-//        sportEvents4Club.addWorker("W89", "Josep", "Paradells",
-//                createLocalDate("23-04-1955"), "R1");
-//
-//        Assert.assertEquals(8, sportEvents4Club.numWorkers());
-//        Assert.assertEquals(3, sportEvents4Club.numWorkersByRole("R1"));
-//
-//        Worker workerW89 = sportEvents4Club.getWorker("W89");
-//        Assert.assertEquals("Josep", workerW89.getName());
-//
-//        ////
-//        // add W99
-//        ////
-//        sportEvents4Club.addWorker("W99", "Oscar", "XXXXXXX",
-//                createLocalDate("23-04-1945"), "R2");
-//
-//        Assert.assertEquals(9, sportEvents4Club.numWorkers());
-//        Assert.assertEquals(3, sportEvents4Club.numWorkersByRole("R1"));
-//        Assert.assertEquals(2, sportEvents4Club.numWorkersByRole("R2"));
-//
-//        Worker workerW99 = sportEvents4Club.getWorker("W99");
-//        Assert.assertEquals("Oscar", workerW99.getName());
-//
-//        ////
-//        // update W99
-//        ////
-//        sportEvents4Club.addWorker("W99", "Oscar", "Sánchez",
-//                createLocalDate("25-04-1945"), "R2");
-//        Assert.assertEquals(9, sportEvents4Club.numWorkers());
-//        Assert.assertEquals(3, sportEvents4Club.numWorkersByRole("R1"));
-//        Assert.assertEquals(2, sportEvents4Club.numWorkersByRole("R2"));
-//
-//        workerW99 = sportEvents4Club.getWorker("W99");
-//        Assert.assertEquals("Oscar", workerW99.getName());
-//        Assert.assertEquals("Sánchez", workerW99.getSurname());
-//        Assert.assertEquals("R2", workerW99.getRoleId());
-//
-//        ////
-//        // update W99 - update Role
-//        ////
-//        sportEvents4Club.addWorker("W99", "Oscar", "Sánchez",
-//                createLocalDate("25-04-1945"), "R1");
-//        Assert.assertEquals(9, sportEvents4Club.numWorkers());
-//        Assert.assertEquals(4, sportEvents4Club.numWorkersByRole("R1"));
-//        Assert.assertEquals(1, sportEvents4Club.numWorkersByRole("R2"));
-//
-//        workerW99 = sportEvents4Club.getWorker("W99");
-//        Assert.assertEquals("Oscar", workerW99.getName());
-//        Assert.assertEquals("Sánchez", workerW99.getSurname());
-//        Assert.assertEquals("R1", workerW99.getRoleId());
-//
-//    }
-//
-//    @Test
-//    public void assignWorkerTest() throws DSException {
-//        // GIVEN:
-//        initialState();
-//        //
-//
-//        Assert.assertThrows(WorkerNotFoundException.class, () ->
-//                sportEvents4Club.assignWorker("WP-XXXXXXXXXXX", "EV-1103"));
-//
-//        Assert.assertThrows(SportEventNotFoundException.class, () ->
-//                sportEvents4Club.assignWorker("WP1", "EV-XXXXXXX1103"));
-//
-//        sportEvents4Club.assignWorker("DNIW1", "EV-1103");
-//        sportEvents4Club.assignWorker("DNIW2", "EV-1103");
-//        sportEvents4Club.assignWorker("DNIW3", "EV-1103");
-//        sportEvents4Club.assignWorker("DNIW4", "EV-1103");
-//
-//        sportEvents4Club.assignWorker("DNIW5", "EV-1101");
-//        sportEvents4Club.assignWorker("DNIW6", "EV-1101");
-//
-//
-//        Assert.assertThrows(WorkerAlreadyAssignedException.class, () ->
-//                sportEvents4Club.assignWorker("DNIW1", "EV-1103"));
-//
-//        Assert.assertEquals(4, sportEvents4Club.numWorkersBySportEvent("EV-1103"));
-//        Assert.assertEquals(2, sportEvents4Club.numWorkersBySportEvent("EV-1101"));
-//
-//    }
-//
-//    @Test
-//    public void getWorkersBySportEventTest() throws DSException {
-//
-//        // GIVEN:
-//        initialState();
-//        //
-//
-//
-//        Assert.assertThrows(SportEventNotFoundException.class, () ->
-//                sportEvents4Club.getWorkersBySportEvent("XXXXXXXX"));
-//
-//        Assert.assertThrows(NoWorkersException.class, () ->
-//                sportEvents4Club.getWorkersBySportEvent("EV-1103"));
-//
-//        assignWorkerTest();
-//
-//        Assert.assertEquals(4, sportEvents4Club.numWorkersBySportEvent("EV-1103"));
-//        Assert.assertEquals(2, sportEvents4Club.numWorkersBySportEvent("EV-1101"));
-//
-//        Iterator<Worker> it1 = sportEvents4Club.getWorkersBySportEvent("EV-1103");
-//
-//        Assert.assertEquals("DNIW1", it1.next().getDni());
-//        Assert.assertEquals("DNIW2", it1.next().getDni());
-//        Assert.assertEquals("DNIW3", it1.next().getDni());
-//        Assert.assertEquals("DNIW4", it1.next().getDni());
-//
-//        Iterator<Worker> it2 = sportEvents4Club.getWorkersBySportEvent("EV-1101");
-//        Assert.assertEquals("DNIW5", it2.next().getDni());
-//        Assert.assertEquals("DNIW6", it2.next().getDni());
-//    }
-//
-//    @Test
-//    public void getWorkersByRoleTest() throws DSException {
-//
-//        // GIVEN:
-//        initialState();
-//        //
-//
-//        Assert.assertThrows(NoWorkersException.class, () ->
-//                sportEvents4Club.getWorkersByRole("R5"));
-//
-//        Iterator<Worker> it1 = sportEvents4Club.getWorkersByRole("R4");
-//
-//        Assert.assertEquals("DNIW6", it1.next().getDni());
-//        Assert.assertEquals("DNIW7", it1.next().getDni());
-//
-//        Iterator<Worker> it2 = sportEvents4Club.getWorkersByRole("R1");
-//
-//        Assert.assertEquals("DNIW1", it2.next().getDni());
-//        Assert.assertEquals("DNIW5", it2.next().getDni());
-//    }
-//
-//
+public class SportEvents4ClubPR2Test extends SportEvents4ClubPR1Test {
+
+
+    @Before
+    public void setUp() throws Exception {
+        this.sportEvents4Club = FactorySportEvents4Club.getSportEvents4ClubPR2();
+    }
+
+    @After
+    public void tearDown() {
+        this.sportEvents4Club = null;
+    }
+
+
+    public void initialState() {
+
+        Assert.assertEquals(5, sportEvents4Club.numRoles());
+        Assert.assertEquals(2, sportEvents4Club.numWorkersByRole("R1"));
+        Assert.assertEquals(1, sportEvents4Club.numWorkersByRole("R2"));
+        Assert.assertEquals(2, sportEvents4Club.numWorkersByRole("R3"));
+        Assert.assertEquals(2, sportEvents4Club.numWorkersByRole("R4"));
+        Assert.assertEquals(0, sportEvents4Club.numWorkersByRole("R5"));
+        Assert.assertEquals(0, sportEvents4Club.numWorkersBySportEvent("EV-1103"));
+        Assert.assertEquals(0, sportEvents4Club.numWorkersBySportEvent("EV-1101"));
+        Assert.assertEquals(13, sportEvents4Club.numAttenders("EV-1101"));
+        Assert.assertEquals(0, sportEvents4Club.numAttenders("EV-1102"));
+        Assert.assertEquals(6, sportEvents4Club.numAttenders("EV-1103"));
+        Assert.assertEquals(0, sportEvents4Club.numAttenders("EV-1104"));
+        Assert.assertEquals(4, sportEvents4Club.numAttenders("EV-1105"));
+        Assert.assertEquals(3, sportEvents4Club.numAttenders("EV-1106"));
+    }
+
+    @Test
+    public void addRoleTest() {
+        // GIVEN:
+        initialState();
+        //
+
+        sportEvents4Club.addRole("R6", "trainer");
+        Assert.assertEquals(6, sportEvents4Club.numRoles());
+
+        sportEvents4Club.addRole("R7", "XXXXX");
+        Assert.assertEquals(7, sportEvents4Club.numRoles());
+        sportEvents4Club.addRole("R7", "Agent");
+        Assert.assertEquals(7, sportEvents4Club.numRoles());
+        Role r7 = sportEvents4Club.getRole("R7");
+        Assert.assertEquals("Agent", r7.getDescription());
+    }
+
+    @Test
+    public void adWorkerTest() {
+        // GIVEN:
+        initialState();
+        //
+
+        ////
+        // add W89
+        ////
+        sportEvents4Club.addWorker("W89", "Josep", "Paradells",
+                createLocalDate("23-04-1955"), "R1");
+
+        Assert.assertEquals(8, sportEvents4Club.numWorkers());
+        Assert.assertEquals(3, sportEvents4Club.numWorkersByRole("R1"));
+
+        Worker workerW89 = sportEvents4Club.getWorker("W89");
+        Assert.assertEquals("Josep", workerW89.getName());
+
+        ////
+        // add W99
+        ////
+        sportEvents4Club.addWorker("W99", "Oscar", "XXXXXXX",
+                createLocalDate("23-04-1945"), "R2");
+
+        Assert.assertEquals(9, sportEvents4Club.numWorkers());
+        Assert.assertEquals(3, sportEvents4Club.numWorkersByRole("R1"));
+        Assert.assertEquals(2, sportEvents4Club.numWorkersByRole("R2"));
+
+        Worker workerW99 = sportEvents4Club.getWorker("W99");
+        Assert.assertEquals("Oscar", workerW99.getName());
+
+        ////
+        // update W99
+        ////
+        sportEvents4Club.addWorker("W99", "Oscar", "Sánchez",
+                createLocalDate("25-04-1945"), "R2");
+        Assert.assertEquals(9, sportEvents4Club.numWorkers());
+        Assert.assertEquals(3, sportEvents4Club.numWorkersByRole("R1"));
+        Assert.assertEquals(2, sportEvents4Club.numWorkersByRole("R2"));
+
+        workerW99 = sportEvents4Club.getWorker("W99");
+        Assert.assertEquals("Oscar", workerW99.getName());
+        Assert.assertEquals("Sánchez", workerW99.getSurname());
+        Assert.assertEquals("R2", workerW99.getRoleId());
+
+        ////
+        // update W99 - update Role
+        ////
+        sportEvents4Club.addWorker("W99", "Oscar", "Sánchez",
+                createLocalDate("25-04-1945"), "R1");
+        Assert.assertEquals(9, sportEvents4Club.numWorkers());
+        Assert.assertEquals(4, sportEvents4Club.numWorkersByRole("R1"));
+        Assert.assertEquals(1, sportEvents4Club.numWorkersByRole("R2"));
+
+        workerW99 = sportEvents4Club.getWorker("W99");
+        Assert.assertEquals("Oscar", workerW99.getName());
+        Assert.assertEquals("Sánchez", workerW99.getSurname());
+        Assert.assertEquals("R1", workerW99.getRoleId());
+
+    }
+
+    @Test
+    public void assignWorkerTest() throws DSException {
+        // GIVEN:
+        initialState();
+        //
+
+        Assert.assertThrows(WorkerNotFoundException.class, () ->
+                sportEvents4Club.assignWorker("WP-XXXXXXXXXXX", "EV-1103"));
+
+        Assert.assertThrows(SportEventNotFoundException.class, () ->
+                sportEvents4Club.assignWorker("WP1", "EV-XXXXXXX1103"));
+
+        sportEvents4Club.assignWorker("DNIW1", "EV-1103");
+        sportEvents4Club.assignWorker("DNIW2", "EV-1103");
+        sportEvents4Club.assignWorker("DNIW3", "EV-1103");
+        sportEvents4Club.assignWorker("DNIW4", "EV-1103");
+
+        sportEvents4Club.assignWorker("DNIW5", "EV-1101");
+        sportEvents4Club.assignWorker("DNIW6", "EV-1101");
+
+
+        Assert.assertThrows(WorkerAlreadyAssignedException.class, () ->
+                sportEvents4Club.assignWorker("DNIW1", "EV-1103"));
+
+        Assert.assertEquals(4, sportEvents4Club.numWorkersBySportEvent("EV-1103"));
+        Assert.assertEquals(2, sportEvents4Club.numWorkersBySportEvent("EV-1101"));
+
+    }
+
+    @Test
+    public void getWorkersBySportEventTest() throws DSException {
+
+        // GIVEN:
+        initialState();
+        //
+
+
+        Assert.assertThrows(SportEventNotFoundException.class, () ->
+                sportEvents4Club.getWorkersBySportEvent("XXXXXXXX"));
+
+        Assert.assertThrows(NoWorkersException.class, () ->
+                sportEvents4Club.getWorkersBySportEvent("EV-1103"));
+
+        assignWorkerTest();
+
+        Assert.assertEquals(4, sportEvents4Club.numWorkersBySportEvent("EV-1103"));
+        Assert.assertEquals(2, sportEvents4Club.numWorkersBySportEvent("EV-1101"));
+
+        Iterator<Worker> it1 = sportEvents4Club.getWorkersBySportEvent("EV-1103");
+
+        Assert.assertEquals("DNIW1", it1.next().getDni());
+        Assert.assertEquals("DNIW2", it1.next().getDni());
+        Assert.assertEquals("DNIW3", it1.next().getDni());
+        Assert.assertEquals("DNIW4", it1.next().getDni());
+
+        Iterator<Worker> it2 = sportEvents4Club.getWorkersBySportEvent("EV-1101");
+        Assert.assertEquals("DNIW5", it2.next().getDni());
+        Assert.assertEquals("DNIW6", it2.next().getDni());
+    }
+
+    @Test
+    public void getWorkersByRoleTest() throws DSException {
+
+        // GIVEN:
+        initialState();
+        //
+
+        Assert.assertThrows(NoWorkersException.class, () ->
+                sportEvents4Club.getWorkersByRole("R5"));
+
+        Iterator<Worker> it1 = sportEvents4Club.getWorkersByRole("R4");
+
+        Assert.assertEquals("DNIW6", it1.next().getDni());
+        Assert.assertEquals("DNIW7", it1.next().getDni());
+
+        Iterator<Worker> it2 = sportEvents4Club.getWorkersByRole("R1");
+
+        Assert.assertEquals("DNIW1", it2.next().getDni());
+        Assert.assertEquals("DNIW5", it2.next().getDni());
+    }
+
+
 //    @Test
 //    public void getLevelTest() throws DSException {
 //        //
@@ -448,4 +443,4 @@ import static uoc.ds.pr.util.DateUtils.createLocalDate;
 //        Assert.assertEquals("EV-1101", sportEvent.getEventId());
 //        Assert.assertEquals(13, sportEvent.numAttenders());
 //    }
-//}
+}

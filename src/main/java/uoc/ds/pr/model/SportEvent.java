@@ -6,6 +6,8 @@ import edu.uoc.ds.adt.sequential.Queue;
 import edu.uoc.ds.adt.sequential.QueueArrayImpl;
 import edu.uoc.ds.traversal.Iterator;
 import uoc.ds.pr.SportEvents4Club;
+import uoc.ds.pr.exceptions.NoSportEventsException;
+import uoc.ds.pr.exceptions.WorkerAlreadyAssignedException;
 
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -14,8 +16,8 @@ import java.util.Hashtable;
 import static uoc.ds.pr.SportEvents4Club.MAX_NUM_ENROLLMENT;
 
 public class SportEvent implements Comparable<SportEvent> {
-    public static final Comparator<SportEvent> CMP_V = (se1, se2)->Double.compare(se1.rating(), se2.rating());
-    public static final Comparator<String> CMP_K = (k1, k2)-> k1.compareTo(k2);
+    public static final Comparator<SportEvent> CMP_V = (se1, se2) -> Double.compare(se1.rating(), se2.rating());
+    public static final Comparator<String> CMP_K = (k1, k2) -> k1.compareTo(k2);
 
     private String eventId;
     private String description;
@@ -35,6 +37,8 @@ public class SportEvent implements Comparable<SportEvent> {
 
     private Queue<Enrollment> enrollments;
 
+    private LinkedList<Worker> workers;
+
     public Attender getAttender(String phone) {
         return attenders.get(phone);
     }
@@ -44,12 +48,16 @@ public class SportEvent implements Comparable<SportEvent> {
     }
 
     public int numAttenders() {
-        return numAttenders;
+       return numAttenders;
     }
 
     public void addAttender(Attender attender) {
         this.attenders.put(attender.getPhone(), attender);
         this.numAttenders++;
+    }
+
+    public Iterator<Worker> getWorkers() {
+        return (Iterator<Worker>) workers.values();
     }
 
     private Hashtable<String, Attender> attenders;
@@ -69,6 +77,7 @@ public class SportEvent implements Comparable<SportEvent> {
         this.ratings = new LinkedList<>();
         numSubstitutes = 0;
         numAttenders = 0;
+        this.workers = new LinkedList<>();
     }
 
 
@@ -130,17 +139,17 @@ public class SportEvent implements Comparable<SportEvent> {
 
 
     public double rating() {
-        return (this.ratings.size()>0?(sumRating / this.ratings.size()):0);
+        return (this.ratings.size() > 0 ? (sumRating / this.ratings.size()) : 0);
     }
 
     public void addRating(SportEvents4Club.Rating rating, String message, Player player) {
         Rating newRating = new Rating(rating, message, player);
         ratings.insertEnd(newRating);
-        sumRating+=rating.getValue();
+        sumRating += rating.getValue();
     }
 
     public boolean hasRatings() {
-        return ratings.size()>0;
+        return ratings.size() > 0;
     }
 
     public Iterator<Rating> ratings() {
@@ -162,11 +171,11 @@ public class SportEvent implements Comparable<SportEvent> {
 
     @Override
     public int compareTo(SportEvent se2) {
-        return Double.compare(rating(), se2.rating() );
+        return Double.compare(rating(), se2.rating());
     }
 
     public boolean isFull() {
-        return (enrollments.size()>=max);
+        return (enrollments.size() >= max);
     }
 
     public int numPlayers() {
@@ -184,6 +193,28 @@ public class SportEvent implements Comparable<SportEvent> {
 
     public int getNumSubstitutes() {
         return numSubstitutes;
+    }
+
+    public void assignWorker(Worker worker) throws WorkerAlreadyAssignedException {
+        if (isWorkerAlreadyAssigned(worker)) {
+            throw new WorkerAlreadyAssignedException();
+        }
+        workers.insertEnd(worker);
+    }
+
+    private Boolean isWorkerAlreadyAssigned(Worker worker) {
+        Iterator<Worker> it = workers.values();
+        while (it.hasNext()) {
+            Worker w = it.next();
+            if (w.getDni().equals(worker.getDni())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int getNumWorkers() {
+        return workers.size();
     }
 
 }
