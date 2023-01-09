@@ -3,6 +3,8 @@ package uoc.ds.pr;
 import edu.uoc.ds.adt.nonlinear.DictionaryAVLImpl;
 import edu.uoc.ds.adt.nonlinear.HashTable;
 import edu.uoc.ds.adt.nonlinear.PriorityQueue;
+import edu.uoc.ds.adt.sequential.LinkedList;
+import edu.uoc.ds.adt.sequential.QueueArrayImpl;
 import edu.uoc.ds.traversal.Iterator;
 import uoc.ds.pr.exceptions.*;
 import uoc.ds.pr.model.*;
@@ -10,7 +12,10 @@ import uoc.ds.pr.util.OrderedVector;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Queue;
 import java.util.function.Function;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
@@ -38,6 +43,10 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
     private Player mostActivePlayer;
     private OrderedVector<SportEvent> bestSportEvent;
 
+    private OrderedVector<OrganizingEntity> bestOrganizingEntities;
+
+    private OrderedVector<SportEvent> bestSportEventsByAttenders;
+
     private Role[] roles;
 
     public SportEvents4ClubImpl() {
@@ -54,6 +63,8 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
         rejectedFiles = 0;
         mostActivePlayer = null;
         bestSportEvent = new OrderedVector<SportEvent>(MAX_NUM_SPORT_EVENTS, SportEvent.CMP_V);
+        bestOrganizingEntities = new OrderedVector<OrganizingEntity>(MAX_NUM_ORGANIZING_ENTITIES, OrganizingEntity.entityComparator);
+        bestSportEventsByAttenders = new OrderedVector<SportEvent>(MAX_NUM_SPORT_EVENTS, SportEvent.SportEventComparator);
         roles = new Role[MAX_NUM_ROLES];
     }
 
@@ -121,19 +132,43 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
     }
 
     @Override
-    public void addAttender(String phone, String name, String eventId) throws NoSportEventsException, AttenderAlreadyExistsException, LimitExceededException {
+    public void addAttender(String phone, String name, String eventId) throws AttenderAlreadyExistsException, LimitExceededException, SportEventNotFoundException {
         SportEvent sportEvent = sportEvents.get(eventId);
-        if (sportEvent == null) throw new NoSportEventsException();
-        if (sportEvent.numAttenders() >= sportEvent.getMax()) throw new LimitExceededException();
-        if (sportEvent.getAttender(phone) != null) throw new AttenderAlreadyExistsException();
+        if (sportEvent == null) throw new SportEventNotFoundException();
+        if (sportEvent.getAttender(phone) != null) {
+            throw new AttenderAlreadyExistsException();
+        }
+        if (sportEvent.numAttenders() + sportEvent.getEnrollments().size() >= sportEvent.getMax()) {
+            throw new LimitExceededException();
+        }
 
         sportEvent.addAttender(new Attender(phone, name));
+        calculateBestEntities();
+        calculateBestSportEvent();
+    }
+
+    private void calculateBestSportEvent() {
+        var mySportEvents = sportEvents.values();
+        while (mySportEvents.hasNext()) {
+            SportEvent ev = mySportEvents.next();
+//            bestSportEventsByAttenders.delete(ev);
+            bestSportEventsByAttenders.update(ev);
+        }
+    }
+
+    private void calculateBestEntities() {
+        var entities = organizingEntities.values();
+        while (entities.hasNext()) {
+            OrganizingEntity entity = entities.next();
+            bestOrganizingEntities.delete(entity);
+            bestOrganizingEntities.update(entity);
+        }
     }
 
     @Override
-    public Attender getAttender(String phone, String eventId) throws NoSportEventsException, AttenderNotFoundException {
+    public Attender getAttender(String phone, String eventId) throws SportEventNotFoundException, AttenderNotFoundException {
         SportEvent sportEvent = sportEvents.get(eventId);
-        if (sportEvent == null) throw new NoSportEventsException();
+        if (sportEvent == null) throw new SportEventNotFoundException();
 
         Attender attender = sportEvent.getAttender(phone);
         if (attender == null) throw new AttenderNotFoundException();
@@ -142,12 +177,18 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
     }
 
     @Override
-    public Iterator<Attender> getAttenders(String eventId) throws NoSportEventsException, NoAttendersException {
+    public Iterator<Attender> getAttenders(String eventId) throws SportEventNotFoundException, NoAttendersException {
         SportEvent sportEvent = sportEvents.get(eventId);
-        if (sportEvent == null) throw new NoSportEventsException();
+        if (sportEvent == null) throw new SportEventNotFoundException();
         if (sportEvent.numAttenders() == 0) throw new NoAttendersException();
 
-        return (Iterator<Attender>) sportEvent.getAttenders().values();
+
+        var result = new LinkedList<Attender>();
+        for (Attender attender : sportEvent.getAttenders().values()) {
+            result.insertEnd(attender);
+        }
+        return result.values();
+
     }
 
     @Override
@@ -252,6 +293,27 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
             throw new SportEventNotFoundException();
         }
         return event.getSubstitutes();
+    }
+
+    @Override
+    public Iterator<OrganizingEntity> best5OrganizingEntities() {
+        LinkedList<OrganizingEntity> result = new LinkedList<>();
+        Iterator<OrganizingEntity> entities = bestOrganizingEntities.values();
+        var i = 0;
+        while (entities.hasNext()) {
+            if (++i > 5) break;
+            var entity = entities.next();
+            result.insertEnd(entity);
+        }
+        return result.values();
+    }
+
+    @Override
+    public SportEvent bestSportEventByAttenders() {
+        while (bestSportEventsByAttenders.values().hasNext()) {
+            return bestSportEventsByAttenders.values().next();
+        }
+        return null;
     }
 
 

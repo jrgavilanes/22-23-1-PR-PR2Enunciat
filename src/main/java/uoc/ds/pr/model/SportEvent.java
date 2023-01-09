@@ -25,6 +25,14 @@ import static uoc.ds.pr.SportEvents4Club.MAX_NUM_ENROLLMENT;
 public class SportEvent implements Comparable<SportEvent> {
     public static final Comparator<SportEvent> CMP_V = (se1, se2) -> Double.compare(se1.rating(), se2.rating());
     public static final Comparator<String> CMP_K = (k1, k2) -> k1.compareTo(k2);
+//    public static final Comparator<SportEvent> CMP_ATTENDERS = (se1, se2) -> se1.numAttenders()-se1.numAttenders() ;
+
+    public static Comparator<SportEvent> SportEventComparator = new Comparator<SportEvent>() {
+        @Override
+        public int compare(SportEvent o1, SportEvent o2) {
+            return o1.numAttenders()-o2.numAttenders();
+        }
+    };
 
     private String eventId;
     private String description;
@@ -69,9 +77,15 @@ public class SportEvent implements Comparable<SportEvent> {
 
     private Hashtable<String, Attender> attenders;
 
+    private OrganizingEntity organizingEntity;
+
+
+    public Queue<Enrollment> getEnrollments() {
+        return enrollments;
+    }
 
     public SportEvent(String eventId, String description, SportEvents4Club.Type type,
-                      LocalDate startDate, LocalDate endDate, int max, File file) {
+                      LocalDate startDate, LocalDate endDate, int max, File file, OrganizingEntity organizingEntity) {
         setEventId(eventId);
         setDescription(description);
         setStartDate(startDate);
@@ -85,6 +99,7 @@ public class SportEvent implements Comparable<SportEvent> {
         numSubstitutes = 0;
         numAttenders = 0;
         this.workers = new LinkedList<>();
+        this.organizingEntity = organizingEntity;
     }
 
 
@@ -247,4 +262,7 @@ public class SportEvent implements Comparable<SportEvent> {
         }
     };
 
+    public OrganizingEntity getOrganizingEntity() {
+        return this.organizingEntity;
+    }
 }

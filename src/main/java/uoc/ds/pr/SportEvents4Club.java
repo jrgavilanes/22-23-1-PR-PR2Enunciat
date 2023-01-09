@@ -17,11 +17,11 @@ public interface SportEvents4Club {
 
     public void assignWorker(String dni, String eventId) throws SportEventNotFoundException, WorkerNotFoundException, WorkerAlreadyAssignedException;
 
-    public void addAttender(String phone, String name, String eventId) throws NoSportEventsException, AttenderAlreadyExistsException, LimitExceededException;
+    public void addAttender(String phone, String name, String eventId) throws NoSportEventsException, AttenderAlreadyExistsException, LimitExceededException, SportEventNotFoundException;
 
-    public Attender getAttender(String phone, String eventId) throws NoSportEventsException, AttenderNotFoundException;
+    public Attender getAttender(String phone, String eventId) throws SportEventNotFoundException, AttenderNotFoundException;
 
-    public Iterator<Attender> getAttenders(String eventId) throws NoSportEventsException, NoAttendersException;
+    public Iterator<Attender> getAttenders(String eventId) throws SportEventNotFoundException, NoAttendersException;
 
     int numRoles();
 
@@ -46,6 +46,10 @@ public interface SportEvents4Club {
     public int numRatings(String idPlayer) throws PlayerNotFoundException;
 
     public Iterator<Enrollment> getSubstitutes(String eventId) throws SportEventNotFoundException, NoSubstitutesException;
+
+    public Iterator<OrganizingEntity> best5OrganizingEntities();
+
+    SportEvent bestSportEventByAttenders();
 
     enum Status {
         PENDING,

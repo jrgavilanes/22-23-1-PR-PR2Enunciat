@@ -349,95 +349,95 @@ public class SportEvents4ClubPR2Test extends SportEvents4ClubPR1Test {
         Assert.assertEquals(SportEvents4Club.Level.ROOKIE, player7.getLevel());
     }
 
-//    @Test
-//    public void addAttender() throws DSException {
-//        //
-//        // GIVEN:
-//        //
-//        initialState();
-//        Assert.assertThrows(SportEventNotFoundException.class, () ->
-//                sportEvents4Club.addAttender("XXXXXXXX", "Luis Pedrahita", "EV-XXXXXX"));
-//
-//        SportEvent sportEvent = sportEvents4Club.getSportEvent("EV-1101");
-//        OrganizingEntity organizingEntity = sportEvent.getOrganizingEntity();
-//        Assert.assertEquals(13, organizingEntity.numAttenders());
-//
-//        sportEvents4Club.addAttender("+346528282", "Carme Lopez", "EV-1101");
-//        Assert.assertEquals(14, organizingEntity.numAttenders());
-//        sportEvents4Club.addAttender("+346528233", "Luïsa Lopez", "EV-1101");
-//        Assert.assertEquals(15, organizingEntity.numAttenders());
-//
-//        Assert.assertEquals(15, sportEvents4Club.numAttenders("EV-1101"));
-//
-//        Assert.assertThrows(AttenderAlreadyExistsException.class, () ->
-//                sportEvents4Club.addAttender("+346528282", "Carme Lopez", "EV-1101"));
-//
-//        Assert.assertThrows(LimitExceededException.class, () ->
-//                sportEvents4Club.addAttender("+34652832233", "Carme Garcia", "EV-1101"));
-//
-//        SportEvent sportEventEV1101 = sportEvents4Club.getSportEvent("EV-1101");
-//        Assert.assertEquals(22, sportEventEV1101.getMax());
-//        Assert.assertEquals(15, sportEventEV1101.numAttenders());
-//        Assert.assertEquals(7, sportEventEV1101.numPlayers());
-//
-//    }
+    @Test
+    public void addAttender() throws DSException {
+        //
+        // GIVEN:
+        //
+        initialState();
+        Assert.assertThrows(SportEventNotFoundException.class, () ->
+                sportEvents4Club.addAttender("XXXXXXXX", "Luis Pedrahita", "EV-XXXXXX"));
 
-//    @Test
-//    public void getAttenderTest() throws DSException {
-//        initialState();
-//
-//        Attender attender = sportEvents4Club.getAttender("+346333333", "EV-1101");
-//        Assert.assertNotNull(attender);
-//
-//        attender = sportEvents4Club.getAttender("+346111111", "EV-1101");
-//        Assert.assertNotNull(attender);
-//
-//        Assert.assertThrows(SportEventNotFoundException.class, () ->
-//                sportEvents4Club.getAttender("+346111111", "EV-XXXXXXX"));
-//
-//        Assert.assertThrows(AttenderNotFoundException.class, () ->
-//                sportEvents4Club.getAttender("+366111111", "EV-1101"));
-//
-//    }
-//
-//
-//    @Test
-//    public void getAtterdersTest() throws DSException {
-//        initialState();
-//
-//        Assert.assertThrows(SportEventNotFoundException.class, () ->
-//                sportEvents4Club.getAttenders("EV-XXXX"));
-//
-//        Assert.assertThrows(NoAttendersException.class, () ->
-//                sportEvents4Club.getAttenders("EV-1104"));
-//
-//        Iterator<Attender> it = sportEvents4Club.getAttenders("EV-1101");
-//        Assert.assertTrue(it.hasNext());
-//    }
-//
-//    @Test
-//    public void best5OrganizingEntitiesTest() throws DSException {
-//        initialState();
-//
-//        Iterator<OrganizingEntity> it = sportEvents4Club.best5OrganizingEntities();
-//        OrganizingEntity org1 = it.next();
-//        Assert.assertEquals("ORG-1", org1.getOrganizationId());
-//        Assert.assertEquals(13, org1.numAttenders());
-//
-//        OrganizingEntity org3 = it.next();
-//        Assert.assertEquals("ORG-3", org3.getOrganizationId());
-//        Assert.assertEquals(10, org3.numAttenders());
-//
-//        OrganizingEntity org2 = it.next();
-//        Assert.assertEquals("ORG-8", org2.getOrganizationId());
-//        Assert.assertEquals(3, org2.numAttenders());
-//    }
-//
-//    @Test
-//    public void bestSportEventByAttenders() throws DSException {
-//        SportEvent sportEvent = sportEvents4Club.bestSportEventByAttenders();
-//
-//        Assert.assertEquals("EV-1101", sportEvent.getEventId());
-//        Assert.assertEquals(13, sportEvent.numAttenders());
-//    }
+        SportEvent sportEvent = sportEvents4Club.getSportEvent("EV-1101");
+        OrganizingEntity organizingEntity = sportEvent.getOrganizingEntity();
+        Assert.assertEquals(13, organizingEntity.numAttenders());
+
+        sportEvents4Club.addAttender("+346528282", "Carme Lopez", "EV-1101");
+        Assert.assertEquals(14, organizingEntity.numAttenders());
+        sportEvents4Club.addAttender("+346528233", "Luïsa Lopez", "EV-1101");
+        Assert.assertEquals(15, organizingEntity.numAttenders());
+
+        Assert.assertEquals(15, sportEvents4Club.numAttenders("EV-1101"));
+
+        Assert.assertThrows(AttenderAlreadyExistsException.class, () ->
+                sportEvents4Club.addAttender("+346528282", "Carme Lopez", "EV-1101"));
+
+        Assert.assertThrows(LimitExceededException.class, () ->
+                sportEvents4Club.addAttender("+34652832233", "Carme Garcia", "EV-1101"));
+
+        SportEvent sportEventEV1101 = sportEvents4Club.getSportEvent("EV-1101");
+        Assert.assertEquals(22, sportEventEV1101.getMax());
+        Assert.assertEquals(15, sportEventEV1101.numAttenders());
+        Assert.assertEquals(7, sportEventEV1101.numPlayers());
+
+    }
+
+    @Test
+    public void getAttenderTest() throws DSException {
+        initialState();
+
+        Attender attender = sportEvents4Club.getAttender("+346333333", "EV-1101");
+        Assert.assertNotNull(attender);
+
+        attender = sportEvents4Club.getAttender("+346111111", "EV-1101");
+        Assert.assertNotNull(attender);
+
+        Assert.assertThrows(SportEventNotFoundException.class, () ->
+                sportEvents4Club.getAttender("+346111111", "EV-XXXXXXX"));
+
+        Assert.assertThrows(AttenderNotFoundException.class, () ->
+                sportEvents4Club.getAttender("+366111111", "EV-1101"));
+
+    }
+
+
+    @Test
+    public void getAtterdersTest() throws DSException {
+        initialState();
+
+        Assert.assertThrows(SportEventNotFoundException.class, () ->
+                sportEvents4Club.getAttenders("EV-XXXX"));
+
+        Assert.assertThrows(NoAttendersException.class, () ->
+                sportEvents4Club.getAttenders("EV-1104"));
+
+        Iterator<Attender> it = sportEvents4Club.getAttenders("EV-1101");
+        Assert.assertTrue(it.hasNext());
+    }
+
+    @Test
+    public void best5OrganizingEntitiesTest() throws DSException {
+        initialState();
+
+        Iterator<OrganizingEntity> it = sportEvents4Club.best5OrganizingEntities();
+        OrganizingEntity org1 = it.next();
+        Assert.assertEquals("ORG-1", org1.getOrganizationId());
+        Assert.assertEquals(13, org1.numAttenders());
+
+        OrganizingEntity org3 = it.next();
+        Assert.assertEquals("ORG-3", org3.getOrganizationId());
+        Assert.assertEquals(10, org3.numAttenders());
+
+        OrganizingEntity org2 = it.next();
+        Assert.assertEquals("ORG-8", org2.getOrganizationId());
+        Assert.assertEquals(3, org2.numAttenders());
+    }
+
+    @Test
+    public void bestSportEventByAttenders() throws DSException {
+        SportEvent sportEvent = sportEvents4Club.bestSportEventByAttenders();
+
+        Assert.assertEquals("EV-1101", sportEvent.getEventId());
+        Assert.assertEquals(13, sportEvent.numAttenders());
+    }
 }

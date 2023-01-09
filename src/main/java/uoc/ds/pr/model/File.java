@@ -109,7 +109,7 @@ public class File {
     public SportEvent newSportEvent() {
 
         SportEvent sportEvent = new SportEvent(this.eventId, this.description, this.type,
-                this.startDate, this.endDate, this.num, this);
+                this.startDate, this.endDate, this.num, this, this.organization);
         this.organization.addEvent(sportEvent);
 
         return sportEvent;
