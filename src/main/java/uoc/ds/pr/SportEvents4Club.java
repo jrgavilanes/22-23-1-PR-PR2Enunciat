@@ -51,6 +51,14 @@ public interface SportEvents4Club {
 
     SportEvent bestSportEventByAttenders();
 
+    Iterator<Player> recommendations(String idPlayer);
+
+    void addFollower(String idPlayer, String idFollower) throws PlayerNotFoundException;
+
+    int numFollowers(String idPlayer);
+
+    int numFollowings(String idPlayer);
+
     enum Status {
         PENDING,
         ENABLED,

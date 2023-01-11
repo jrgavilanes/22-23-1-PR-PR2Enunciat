@@ -8,98 +8,99 @@ import org.junit.Before;
 import org.junit.Test;
 import uoc.ds.pr.exceptions.*;
 import uoc.ds.pr.model.*;
-//
-//public class SportEvents4ClubPR2TestPlus extends SportEvents4ClubPR2Test {
-//
-//
-//    @Before
-//    public void setUp() throws Exception {
-//        this.sportEvents4Club = FactorySportEvents4Club.getSportEvents4ClubPR2();
-//        sportEvents4Club.addFollower("idPlayer1", "idPlayer2");
-//        sportEvents4Club.addFollower("idPlayer1", "idPlayer3");
-//        sportEvents4Club.addFollower("idPlayer1", "idPlayer4");
-//        sportEvents4Club.addFollower("idPlayer1", "idPlayer5");
-//
-//        sportEvents4Club.addFollower("idPlayer2", "idPlayer1");
-//        sportEvents4Club.addFollower("idPlayer2", "idPlayer3");
-//        sportEvents4Club.addFollower("idPlayer2", "idPlayer6");
-//        sportEvents4Club.addFollower("idPlayer2", "idPlayer7");
-//
-//        sportEvents4Club.addFollower("idPlayer3", "idPlayer1");
-//        sportEvents4Club.addFollower("idPlayer3", "idPlayer2");
-//        sportEvents4Club.addFollower("idPlayer3", "idPlayer4");
-//        sportEvents4Club.addFollower("idPlayer3", "idPlayer5");
-//
-//        sportEvents4Club.addFollower("idPlayer5", "idPlayer10");
-//        sportEvents4Club.addFollower("idPlayer5", "idPlayer11");
-//        Assert.assertEquals(4, sportEvents4Club.numFollowers("idPlayer1"));
-//        Assert.assertEquals(4, sportEvents4Club.numFollowers("idPlayer2"));
-//        Assert.assertEquals(4, sportEvents4Club.numFollowers("idPlayer3"));
-//        Assert.assertEquals(2, sportEvents4Club.numFollowers("idPlayer5"));
-//
-//        Assert.assertEquals(2, sportEvents4Club.numFollowings("idPlayer1"));
-//        Assert.assertEquals(2, sportEvents4Club.numFollowings("idPlayer2"));
-//        Assert.assertEquals(2, sportEvents4Club.numFollowings("idPlayer3"));
-//        Assert.assertEquals(2, sportEvents4Club.numFollowings("idPlayer4"));
-//        Assert.assertEquals(2, sportEvents4Club.numFollowings("idPlayer5"));
-//        Assert.assertEquals(1, sportEvents4Club.numFollowings("idPlayer6"));
-//        Assert.assertEquals(1, sportEvents4Club.numFollowings("idPlayer10"));
-//        Assert.assertEquals(1, sportEvents4Club.numFollowings("idPlayer11"));
-//
-//    }
-//
-//    @After
-//    public void tearDown() {
-//        this.sportEvents4Club = null;
-//    }
-//
-//
-//    public void initialState() {
-//        super.initialState();
-//    }
-//
-//    /**
-//     *
-//     * @POST
-//     * followers(1): {2, 3, 4, 5}
-//     * followers(2): {1, 3, 6, 7}
-//     * followers(3): {1, 2, 4, 5}
-//     * followers(5): {10, 11}
-//     *
-//     * followings(1): {2, 3}
-//     * followings(2): {1, 3}
-//     * followings(3): {1, 2}
-//     * followings(4): {1, 3}
-//     * followings(5): {1, 3}
-//     * followings(6): {2}
-//     * followings(7): {2}
-//     * followings(10): {5}
-//     * followings(11): {5}
-//     */
-//    @Test
-//    public void addFollowerTest() throws DSException {
-//        // GIVEN:
-//        initialState();
-//        //
-//
-//
-//        Assert.assertThrows(PlayerNotFoundException.class, () ->
-//                sportEvents4Club.addFollower("playerXXXXXX", "playerId1"));
-//
-//        Assert.assertThrows(PlayerNotFoundException.class, () ->
-//                sportEvents4Club.addFollower("playerId1", "playerXXXXXX"));
-//
-//
-//        Assert.assertEquals(4, sportEvents4Club.numFollowers("idPlayer1"));
-//        Assert.assertEquals(1, sportEvents4Club.numFollowings("idPlayer10"));
-//
-//        sportEvents4Club.addFollower("idPlayer1", "idPlayer10");
-//        Assert.assertEquals(5, sportEvents4Club.numFollowers("idPlayer1"));
-//        Assert.assertEquals(2, sportEvents4Club.numFollowings("idPlayer10"));
-//
-//
-//    }
-//
+
+
+public class SportEvents4ClubPR2TestPlus extends SportEvents4ClubPR2Test {
+
+
+    @Before
+    public void setUp() throws Exception {
+        this.sportEvents4Club = FactorySportEvents4Club.getSportEvents4ClubPR2();
+        sportEvents4Club.addFollower("idPlayer1", "idPlayer2");
+        sportEvents4Club.addFollower("idPlayer1", "idPlayer3");
+        sportEvents4Club.addFollower("idPlayer1", "idPlayer4");
+        sportEvents4Club.addFollower("idPlayer1", "idPlayer5");
+
+        sportEvents4Club.addFollower("idPlayer2", "idPlayer1");
+        sportEvents4Club.addFollower("idPlayer2", "idPlayer3");
+        sportEvents4Club.addFollower("idPlayer2", "idPlayer6");
+        sportEvents4Club.addFollower("idPlayer2", "idPlayer7");
+
+        sportEvents4Club.addFollower("idPlayer3", "idPlayer1");
+        sportEvents4Club.addFollower("idPlayer3", "idPlayer2");
+        sportEvents4Club.addFollower("idPlayer3", "idPlayer4");
+        sportEvents4Club.addFollower("idPlayer3", "idPlayer5");
+
+        sportEvents4Club.addFollower("idPlayer5", "idPlayer10");
+        sportEvents4Club.addFollower("idPlayer5", "idPlayer11");
+        Assert.assertEquals(4, sportEvents4Club.numFollowers("idPlayer1"));
+        Assert.assertEquals(4, sportEvents4Club.numFollowers("idPlayer2"));
+        Assert.assertEquals(4, sportEvents4Club.numFollowers("idPlayer3"));
+        Assert.assertEquals(2, sportEvents4Club.numFollowers("idPlayer5"));
+
+        Assert.assertEquals(2, sportEvents4Club.numFollowings("idPlayer1"));
+        Assert.assertEquals(2, sportEvents4Club.numFollowings("idPlayer2"));
+        Assert.assertEquals(2, sportEvents4Club.numFollowings("idPlayer3"));
+        Assert.assertEquals(2, sportEvents4Club.numFollowings("idPlayer4"));
+        Assert.assertEquals(2, sportEvents4Club.numFollowings("idPlayer5"));
+        Assert.assertEquals(1, sportEvents4Club.numFollowings("idPlayer6"));
+        Assert.assertEquals(1, sportEvents4Club.numFollowings("idPlayer10"));
+        Assert.assertEquals(1, sportEvents4Club.numFollowings("idPlayer11"));
+
+    }
+
+    @After
+    public void tearDown() {
+        this.sportEvents4Club = null;
+    }
+
+
+    public void initialState() {
+        super.initialState();
+    }
+
+    /**
+     *
+     * @POST
+     * followers(1): {2, 3, 4, 5}
+     * followers(2): {1, 3, 6, 7}
+     * followers(3): {1, 2, 4, 5}
+     * followers(5): {10, 11}
+     *
+     * followings(1): {2, 3}
+     * followings(2): {1, 3}
+     * followings(3): {1, 2}
+     * followings(4): {1, 3}
+     * followings(5): {1, 3}
+     * followings(6): {2}
+     * followings(7): {2}
+     * followings(10): {5}
+     * followings(11): {5}
+     */
+    @Test
+    public void addFollowerTest() throws DSException {
+        // GIVEN:
+        initialState();
+        //
+
+
+        Assert.assertThrows(PlayerNotFoundException.class, () ->
+                sportEvents4Club.addFollower("playerXXXXXX", "playerId1"));
+
+        Assert.assertThrows(PlayerNotFoundException.class, () ->
+                sportEvents4Club.addFollower("playerId1", "playerXXXXXX"));
+
+
+        Assert.assertEquals(4, sportEvents4Club.numFollowers("idPlayer1"));
+        Assert.assertEquals(1, sportEvents4Club.numFollowings("idPlayer10"));
+
+        sportEvents4Club.addFollower("idPlayer1", "idPlayer10");
+        Assert.assertEquals(5, sportEvents4Club.numFollowers("idPlayer1"));
+        Assert.assertEquals(2, sportEvents4Club.numFollowings("idPlayer10"));
+
+
+    }
+
 //    /**
 //     * followers(1): {2, 3, 4, 5}
 //     * followers(2): {1, 3, 6, 7}
@@ -310,5 +311,5 @@ import uoc.ds.pr.model.*;
 //        Assert.assertEquals("{'player': 'idPlayer3', 'sportEvent': 'EV-1101', 'rating': 'FOUR', 'action': 'rating'}",
 //                it.next().message());
 //    }
-//
-//}
+
+}

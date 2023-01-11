@@ -24,6 +24,8 @@ import java.util.function.ToLongFunction;
 
 public class SportEvents4ClubImpl implements SportEvents4Club {
 
+    private SocialNet socialNet;
+
     private HashTable<String, Attender> attenders;
     private HashTable<String, Worker> workers;
     private Player[] players;
@@ -66,6 +68,7 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
         bestOrganizingEntities = new OrderedVector<OrganizingEntity>(MAX_NUM_ORGANIZING_ENTITIES, OrganizingEntity.entityComparator);
         bestSportEventsByAttenders = new OrderedVector<SportEvent>(MAX_NUM_SPORT_EVENTS, SportEvent.SportEventComparator);
         roles = new Role[MAX_NUM_ROLES];
+        socialNet = new SocialNet(players);
     }
 
 
@@ -314,6 +317,35 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
             return bestSportEventsByAttenders.values().next();
         }
         return null;
+    }
+
+    @Override
+    public Iterator<Player> recommendations(String idPlayer) {
+        return null;
+    }
+
+    @Override
+    public void addFollower(String idPlayer, String idFollower) throws PlayerNotFoundException {
+        socialNet.addFollowerToUser(idPlayer, idFollower);
+    }
+
+    @Override
+    public int numFollowers(String idPlayer) {
+        try {
+            return socialNet.getNumUserFollowers(idPlayer);
+        } catch (Exception e) {
+            return 0;
+        }
+
+    }
+
+    @Override
+    public int numFollowings(String idPlayer) {
+        try {
+            return socialNet.getNumUserFollowings(idPlayer);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
 
