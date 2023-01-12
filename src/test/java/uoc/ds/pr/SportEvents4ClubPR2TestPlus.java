@@ -101,215 +101,215 @@ public class SportEvents4ClubPR2TestPlus extends SportEvents4ClubPR2Test {
 
     }
 
-//    /**
-//     * followers(1): {2, 3, 4, 5}
-//     * followers(2): {1, 3, 6, 7}
-//     * followers(3): {1, 2, 4, 5}
-//     * followers(5): {10, 11}
-//     *
-//     * followings(1): {2, 3}
-//     * followings(2): {1, 3}
-//     * followings(3): {1, 2}
-//     * followings(4): {1, 3}
-//     * followings(5): {1, 3}
-//     * followings(6): {2}
-//     * followings(7): {2}
-//     * followings(10): {5}
-//     * followings(11): {5}
-//     */
-//    @Test
-//    public void getFollowersTest() throws DSException {
-//        initialState();
-//
-//        Iterator<Player> it = sportEvents4Club.getFollowers("idPlayer1");
-//        Assert.assertEquals("idPlayer2", it.next().getId());
-//        Assert.assertEquals("idPlayer3", it.next().getId());
-//        Assert.assertEquals("idPlayer4", it.next().getId());
-//        Assert.assertEquals("idPlayer5", it.next().getId());
-//
-//        Iterator<Player> itPlayer2 = sportEvents4Club.getFollowers("idPlayer2");
-//        Assert.assertEquals("idPlayer1", itPlayer2.next().getId());
-//        Assert.assertEquals("idPlayer3", itPlayer2.next().getId());
-//        Assert.assertEquals("idPlayer6", itPlayer2.next().getId());
-//        Assert.assertEquals("idPlayer7", itPlayer2.next().getId());
-//
-//        Iterator<Player> itPlayer3 = sportEvents4Club.getFollowers("idPlayer3");
-//        Assert.assertEquals("idPlayer1", itPlayer3.next().getId());
-//        Assert.assertEquals("idPlayer2", itPlayer3.next().getId());
-//        Assert.assertEquals("idPlayer4", itPlayer3.next().getId());
-//        Assert.assertEquals("idPlayer5", itPlayer3.next().getId());
-//
-//        Assert.assertThrows(PlayerNotFoundException.class, () ->
-//                sportEvents4Club.getFollowers("idPlayerXXXXX"));
-//
-//        Assert.assertThrows(NoFollowersException.class, () ->
-//                sportEvents4Club.getFollowers("idPlayer10"));
-//    }
-//
-//    /**
-//     *
-//     * followers(1): {2, 3, 4, 5}
-//     * followers(2): {1, 3, 6, 7}
-//     * followers(3): {1, 2, 4, 5}
-//     * followers(5): {10, 11}
-//     *
-//     * followings(1): {2, 3}
-//     * followings(2): {1, 3}
-//     * followings(3): {1, 2}
-//     * followings(4): {1, 3}
-//     * followings(5): {1, 3}
-//     * followings(6): {2}
-//     * followings(7): {2}
-//     * followings(10): {5}
-//     * followings(11): {5}
-//     */
-//    @Test
-//    public void getFollowingsTest() throws DSException {
-//        initialState();
-//
-//        Assert.assertThrows(PlayerNotFoundException.class, () ->
-//                sportEvents4Club.getFollowings("idPlayerXXXXX"));
-//
-//        Assert.assertThrows(NoFollowingException.class, () ->
-//                sportEvents4Club.getFollowings("idPlayer8"));
-//
-//        Iterator<Player> it = sportEvents4Club.getFollowings("idPlayer1");
-//        Assert.assertEquals("idPlayer2", it.next().getId());
-//        Assert.assertEquals("idPlayer3", it.next().getId());
-//        Assert.assertFalse(it.hasNext());
-//
-//        it = sportEvents4Club.getFollowings("idPlayer2");
-//        Assert.assertEquals("idPlayer1", it.next().getId());
-//        Assert.assertEquals("idPlayer3", it.next().getId());
-//        Assert.assertFalse(it.hasNext());
-//
-//        it = sportEvents4Club.getFollowings("idPlayer3");
-//        Assert.assertEquals("idPlayer1", it.next().getId());
-//        Assert.assertEquals("idPlayer2", it.next().getId());
-//        Assert.assertFalse(it.hasNext());
-//
-//        it = sportEvents4Club.getFollowings("idPlayer4");
-//        Assert.assertEquals("idPlayer1", it.next().getId());
-//        Assert.assertEquals("idPlayer3", it.next().getId());
-//        Assert.assertFalse(it.hasNext());
-//
-//        it = sportEvents4Club.getFollowings("idPlayer5");
-//        Assert.assertEquals("idPlayer1", it.next().getId());
-//        Assert.assertEquals("idPlayer3", it.next().getId());
-//        Assert.assertFalse(it.hasNext());
-//
-//        it = sportEvents4Club.getFollowings("idPlayer6");
-//        Assert.assertEquals("idPlayer2", it.next().getId());
-//        Assert.assertFalse(it.hasNext());
-//
-//        it = sportEvents4Club.getFollowings("idPlayer7");
-//        Assert.assertEquals("idPlayer2", it.next().getId());
-//        Assert.assertFalse(it.hasNext());
-//
-//        it = sportEvents4Club.getFollowings("idPlayer10");
-//        Assert.assertEquals("idPlayer5", it.next().getId());
-//        Assert.assertFalse(it.hasNext());
-//
-//        it = sportEvents4Club.getFollowings("idPlayer11");
-//        Assert.assertEquals("idPlayer5", it.next().getId());
-//        Assert.assertFalse(it.hasNext());
-//
-//    }
-//
-//    /**
-//     *
-//     * followers(1): {2, 3, 4, 5}
-//     * followers(2): {1, 3, 6, 7}
-//     * followers(3): {1, 2, 4, 5}
-//     * followers(5): {10, 11}
-//     *
-//     * followings(1): {2, 3}
-//     * followings(2): {1, 3}
-//     * followings(3): {1, 2}
-//     * followings(4): {1, 3}
-//     * followings(5): {1, 3}
-//     * followings(6): {2}
-//     * followings(7): {2}
-//     * followings(10): {5}
-//     * followings(11): {5}
-//     */
-//    @Test
-//    public void recommendationTest() throws DSException {
-//        initialState();
-//
-//        Assert.assertThrows(PlayerNotFoundException.class, () ->
-//                sportEvents4Club.recommendations("idPlayerXXXXX"));
-//
-//        Assert.assertThrows(NoFollowersException.class, () ->
-//                sportEvents4Club.recommendations("idPlayer8"));
-//
-//        Iterator<Player> it =  sportEvents4Club.recommendations("idPlayer1");
-//        Assert.assertEquals("idPlayer6", it.next().getId());
-//        Assert.assertEquals("idPlayer7", it.next().getId());
-//        Assert.assertEquals("idPlayer10", it.next().getId());
-//        Assert.assertEquals("idPlayer11", it.next().getId());
-//        Assert.assertFalse(it.hasNext());
-//
-//        it =  sportEvents4Club.recommendations("idPlayer2");
-//        Assert.assertEquals("idPlayer4", it.next().getId());
-//        Assert.assertEquals("idPlayer5", it.next().getId());
-//        Assert.assertFalse(it.hasNext());
-//
-//        it =  sportEvents4Club.recommendations("idPlayer3");
-//        Assert.assertEquals("idPlayer6", it.next().getId());
-//        Assert.assertEquals("idPlayer7", it.next().getId());
-//        Assert.assertEquals("idPlayer10", it.next().getId());
-//        Assert.assertEquals("idPlayer11", it.next().getId());
-//        Assert.assertFalse(it.hasNext());
-//
-//    }
-//
-//    /**
-//     * followers(1): {2, 3, 4, 5}
-//     * followers(2): {1, 3, 6, 7}
-//     * followers(3): {1, 2, 4, 5}
-//     * followers(5): {10, 11}
-//     *
-//     * followings(1): {2, 3}
-//     * followings(2): {1, 3}
-//     * followings(3): {1, 2}
-//     * followings(4): {1, 3}
-//     * followings(5): {1, 3}
-//     * followings(6): {2}
-//     * followings(7): {2}
-//     * followings(10): {5}
-//     * followings(11): {5}
-//     */
-//    @Test
-//    public void getPostsTest() throws DSException {
-//        initialState();
-//
-//        super.addRatingAndBestEventTest();
-//
-//        Assert.assertThrows(PlayerNotFoundException.class, () ->
-//                sportEvents4Club.getPosts("idPlayeXXXXXXX"));
-//
-//        Assert.assertThrows(NoPostsException.class, () ->
-//                sportEvents4Club.getPosts("idPlayer12"));
-//
-//        Iterator<Post> it = sportEvents4Club.getPosts("idPlayer1");
-//
-//
-//
-//        Assert.assertEquals("{'player': 'idPlayer2', 'sportEvent': 'EV-1103', 'action': 'signup'}",
-//                it.next().message());
-//        Assert.assertEquals("{'player': 'idPlayer2', 'sportEvent': 'EV-1101', 'action': 'signup'}",
-//                it.next().message());
-//        Assert.assertEquals("{'player': 'idPlayer2', 'sportEvent': 'EV-1104', 'action': 'signup'}",
-//                it.next().message());
-//        Assert.assertEquals("{'player': 'idPlayer2', 'sportEvent': 'EV-1103', 'rating': 'TWO', 'action': 'rating'}",
-//                it.next().message());
-//        Assert.assertEquals("{'player': 'idPlayer2', 'sportEvent': 'EV-1103', 'rating': 'FIVE', 'action': 'rating'}",
-//                it.next().message());
-//        Assert.assertEquals("{'player': 'idPlayer3', 'sportEvent': 'EV-1101', 'action': 'signup'}",
-//                it.next().message());
-//        Assert.assertEquals("{'player': 'idPlayer3', 'sportEvent': 'EV-1101', 'rating': 'FOUR', 'action': 'rating'}",
-//                it.next().message());
-//    }
+    /**
+     * followers(1): {2, 3, 4, 5}
+     * followers(2): {1, 3, 6, 7}
+     * followers(3): {1, 2, 4, 5}
+     * followers(5): {10, 11}
+     *
+     * followings(1): {2, 3}
+     * followings(2): {1, 3}
+     * followings(3): {1, 2}
+     * followings(4): {1, 3}
+     * followings(5): {1, 3}
+     * followings(6): {2}
+     * followings(7): {2}
+     * followings(10): {5}
+     * followings(11): {5}
+     */
+    @Test
+    public void getFollowersTest() throws DSException {
+        initialState();
+
+        Iterator<Player> it = sportEvents4Club.getFollowers("idPlayer1");
+        Assert.assertEquals("idPlayer2", it.next().getId());
+        Assert.assertEquals("idPlayer3", it.next().getId());
+        Assert.assertEquals("idPlayer4", it.next().getId());
+        Assert.assertEquals("idPlayer5", it.next().getId());
+
+        Iterator<Player> itPlayer2 = sportEvents4Club.getFollowers("idPlayer2");
+        Assert.assertEquals("idPlayer1", itPlayer2.next().getId());
+        Assert.assertEquals("idPlayer3", itPlayer2.next().getId());
+        Assert.assertEquals("idPlayer6", itPlayer2.next().getId());
+        Assert.assertEquals("idPlayer7", itPlayer2.next().getId());
+
+        Iterator<Player> itPlayer3 = sportEvents4Club.getFollowers("idPlayer3");
+        Assert.assertEquals("idPlayer1", itPlayer3.next().getId());
+        Assert.assertEquals("idPlayer2", itPlayer3.next().getId());
+        Assert.assertEquals("idPlayer4", itPlayer3.next().getId());
+        Assert.assertEquals("idPlayer5", itPlayer3.next().getId());
+
+        Assert.assertThrows(PlayerNotFoundException.class, () ->
+                sportEvents4Club.getFollowers("idPlayerXXXXX"));
+
+        Assert.assertThrows(NoFollowersException.class, () ->
+                sportEvents4Club.getFollowers("idPlayer10"));
+    }
+
+    /**
+     *
+     * followers(1): {2, 3, 4, 5}
+     * followers(2): {1, 3, 6, 7}
+     * followers(3): {1, 2, 4, 5}
+     * followers(5): {10, 11}
+     *
+     * followings(1): {2, 3}
+     * followings(2): {1, 3}
+     * followings(3): {1, 2}
+     * followings(4): {1, 3}
+     * followings(5): {1, 3}
+     * followings(6): {2}
+     * followings(7): {2}
+     * followings(10): {5}
+     * followings(11): {5}
+     */
+    @Test
+    public void getFollowingsTest() throws DSException {
+        initialState();
+
+        Assert.assertThrows(PlayerNotFoundException.class, () ->
+                sportEvents4Club.getFollowings("idPlayerXXXXX"));
+
+        Assert.assertThrows(NoFollowingException.class, () ->
+                sportEvents4Club.getFollowings("idPlayer8"));
+
+        Iterator<Player> it = sportEvents4Club.getFollowings("idPlayer1");
+        Assert.assertEquals("idPlayer2", it.next().getId());
+        Assert.assertEquals("idPlayer3", it.next().getId());
+        Assert.assertFalse(it.hasNext());
+
+        it = sportEvents4Club.getFollowings("idPlayer2");
+        Assert.assertEquals("idPlayer1", it.next().getId());
+        Assert.assertEquals("idPlayer3", it.next().getId());
+        Assert.assertFalse(it.hasNext());
+
+        it = sportEvents4Club.getFollowings("idPlayer3");
+        Assert.assertEquals("idPlayer1", it.next().getId());
+        Assert.assertEquals("idPlayer2", it.next().getId());
+        Assert.assertFalse(it.hasNext());
+
+        it = sportEvents4Club.getFollowings("idPlayer4");
+        Assert.assertEquals("idPlayer1", it.next().getId());
+        Assert.assertEquals("idPlayer3", it.next().getId());
+        Assert.assertFalse(it.hasNext());
+
+        it = sportEvents4Club.getFollowings("idPlayer5");
+        Assert.assertEquals("idPlayer1", it.next().getId());
+        Assert.assertEquals("idPlayer3", it.next().getId());
+        Assert.assertFalse(it.hasNext());
+
+        it = sportEvents4Club.getFollowings("idPlayer6");
+        Assert.assertEquals("idPlayer2", it.next().getId());
+        Assert.assertFalse(it.hasNext());
+
+        it = sportEvents4Club.getFollowings("idPlayer7");
+        Assert.assertEquals("idPlayer2", it.next().getId());
+        Assert.assertFalse(it.hasNext());
+
+        it = sportEvents4Club.getFollowings("idPlayer10");
+        Assert.assertEquals("idPlayer5", it.next().getId());
+        Assert.assertFalse(it.hasNext());
+
+        it = sportEvents4Club.getFollowings("idPlayer11");
+        Assert.assertEquals("idPlayer5", it.next().getId());
+        Assert.assertFalse(it.hasNext());
+
+    }
+
+    /**
+     *
+     * followers(1): {2, 3, 4, 5}
+     * followers(2): {1, 3, 6, 7}
+     * followers(3): {1, 2, 4, 5}
+     * followers(5): {10, 11}
+     *
+     * followings(1): {2, 3}
+     * followings(2): {1, 3}
+     * followings(3): {1, 2}
+     * followings(4): {1, 3}
+     * followings(5): {1, 3}
+     * followings(6): {2}
+     * followings(7): {2}
+     * followings(10): {5}
+     * followings(11): {5}
+     */
+    @Test
+    public void recommendationTest() throws DSException {
+        initialState();
+
+        Assert.assertThrows(PlayerNotFoundException.class, () ->
+                sportEvents4Club.recommendations("idPlayerXXXXX"));
+
+        Assert.assertThrows(NoFollowersException.class, () ->
+                sportEvents4Club.recommendations("idPlayer8"));
+
+        Iterator<Player> it =  sportEvents4Club.recommendations("idPlayer1");
+        Assert.assertEquals("idPlayer6", it.next().getId());
+        Assert.assertEquals("idPlayer7", it.next().getId());
+        Assert.assertEquals("idPlayer10", it.next().getId());
+        Assert.assertEquals("idPlayer11", it.next().getId());
+        Assert.assertFalse(it.hasNext());
+
+        it =  sportEvents4Club.recommendations("idPlayer2");
+        Assert.assertEquals("idPlayer4", it.next().getId());
+        Assert.assertEquals("idPlayer5", it.next().getId());
+        Assert.assertFalse(it.hasNext());
+
+        it =  sportEvents4Club.recommendations("idPlayer3");
+        Assert.assertEquals("idPlayer6", it.next().getId());
+        Assert.assertEquals("idPlayer7", it.next().getId());
+        Assert.assertEquals("idPlayer10", it.next().getId());
+        Assert.assertEquals("idPlayer11", it.next().getId());
+        Assert.assertFalse(it.hasNext());
+
+    }
+
+    /**
+     * followers(1): {2, 3, 4, 5}
+     * followers(2): {1, 3, 6, 7}
+     * followers(3): {1, 2, 4, 5}
+     * followers(5): {10, 11}
+     *
+     * followings(1): {2, 3}
+     * followings(2): {1, 3}
+     * followings(3): {1, 2}
+     * followings(4): {1, 3}
+     * followings(5): {1, 3}
+     * followings(6): {2}
+     * followings(7): {2}
+     * followings(10): {5}
+     * followings(11): {5}
+     */
+    @Test
+    public void getPostsTest() throws DSException {
+        initialState();
+
+        super.addRatingAndBestEventTest();
+
+        Assert.assertThrows(PlayerNotFoundException.class, () ->
+                sportEvents4Club.getPosts("idPlayeXXXXXXX"));
+
+        Assert.assertThrows(NoPostsException.class, () ->
+                sportEvents4Club.getPosts("idPlayer12"));
+
+        Iterator<Post> it = sportEvents4Club.getPosts("idPlayer1");
+
+
+
+        Assert.assertEquals("{'player': 'idPlayer2', 'sportEvent': 'EV-1103', 'action': 'signup'}",
+                it.next().message());
+        Assert.assertEquals("{'player': 'idPlayer2', 'sportEvent': 'EV-1101', 'action': 'signup'}",
+                it.next().message());
+        Assert.assertEquals("{'player': 'idPlayer2', 'sportEvent': 'EV-1104', 'action': 'signup'}",
+                it.next().message());
+        Assert.assertEquals("{'player': 'idPlayer2', 'sportEvent': 'EV-1103', 'rating': 'TWO', 'action': 'rating'}",
+                it.next().message());
+        Assert.assertEquals("{'player': 'idPlayer2', 'sportEvent': 'EV-1103', 'rating': 'FIVE', 'action': 'rating'}",
+                it.next().message());
+        Assert.assertEquals("{'player': 'idPlayer3', 'sportEvent': 'EV-1101', 'action': 'signup'}",
+                it.next().message());
+        Assert.assertEquals("{'player': 'idPlayer3', 'sportEvent': 'EV-1101', 'rating': 'FOUR', 'action': 'rating'}",
+                it.next().message());
+    }
 
 }

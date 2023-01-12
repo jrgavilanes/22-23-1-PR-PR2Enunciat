@@ -51,13 +51,17 @@ public interface SportEvents4Club {
 
     SportEvent bestSportEventByAttenders();
 
-    Iterator<Player> recommendations(String idPlayer);
+    Iterator<Player> recommendations(String idPlayer) throws PlayerNotFoundException, NoFollowersException;
 
     void addFollower(String idPlayer, String idFollower) throws PlayerNotFoundException;
 
     int numFollowers(String idPlayer);
 
     int numFollowings(String idPlayer);
+
+    Iterator<Player> getFollowers(String idPlayer) throws PlayerNotFoundException, NoFollowersException;
+
+    Iterator<Player> getFollowings(String idPlayer) throws NoFollowingException, PlayerNotFoundException;
 
     enum Status {
         PENDING,

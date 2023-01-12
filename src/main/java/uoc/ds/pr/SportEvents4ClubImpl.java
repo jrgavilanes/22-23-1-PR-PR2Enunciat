@@ -4,7 +4,6 @@ import edu.uoc.ds.adt.nonlinear.DictionaryAVLImpl;
 import edu.uoc.ds.adt.nonlinear.HashTable;
 import edu.uoc.ds.adt.nonlinear.PriorityQueue;
 import edu.uoc.ds.adt.sequential.LinkedList;
-import edu.uoc.ds.adt.sequential.QueueArrayImpl;
 import edu.uoc.ds.traversal.Iterator;
 import uoc.ds.pr.exceptions.*;
 import uoc.ds.pr.model.*;
@@ -12,14 +11,7 @@ import uoc.ds.pr.util.OrderedVector;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Collection;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Queue;
-import java.util.function.Function;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
 
 
 public class SportEvents4ClubImpl implements SportEvents4Club {
@@ -28,7 +20,7 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
 
     private HashTable<String, Attender> attenders;
     private HashTable<String, Worker> workers;
-    private Player[] players;
+    private DictionaryAVLImpl<String, Player> players;
     private int numPlayers;
 
     private int numRoles;
@@ -52,7 +44,7 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
     private Role[] roles;
 
     public SportEvents4ClubImpl() {
-        players = new Player[MAX_NUM_PLAYER];
+        players = new DictionaryAVLImpl<String, Player>();
         numPlayers = 0;
         numRoles = 0;
         organizingEntities = new HashTable<String, OrganizingEntity>();
@@ -320,8 +312,8 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
     }
 
     @Override
-    public Iterator<Player> recommendations(String idPlayer) {
-        return null;
+    public Iterator<Player> recommendations(String idPlayer) throws PlayerNotFoundException, NoFollowersException {
+        return socialNet.recommendations(idPlayer);
     }
 
     @Override
@@ -332,7 +324,7 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
     @Override
     public int numFollowers(String idPlayer) {
         try {
-            return socialNet.getNumUserFollowers(idPlayer);
+            return socialNet.getNumFollowers(idPlayer);
         } catch (Exception e) {
             return 0;
         }
@@ -346,6 +338,16 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
         } catch (Exception e) {
             return 0;
         }
+    }
+
+    @Override
+    public Iterator<Player> getFollowers(String idPlayer) throws PlayerNotFoundException, NoFollowersException {
+        return socialNet.getFollowers(idPlayer);
+    }
+
+    @Override
+    public Iterator<Player> getFollowings(String idPlayer) throws NoFollowingException, PlayerNotFoundException {
+        return socialNet.getFollowings(idPlayer);
     }
 
 
@@ -362,17 +364,13 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
     }
 
     public void addUser(Player player) {
-        players[numPlayers++] = player;
+        players.put(player.getId(), player);
+        numPlayers = players.size();
     }
 
     public Player getPlayer(String playerId) {
-
-        for (Player u : players) {
-            if (u == null) {
-                return null;
-            } else if (u.is(playerId)) {
-                return u;
-            }
+        if (players.containsKey(playerId)) {
+            return players.get(playerId);
         }
         return null;
     }
