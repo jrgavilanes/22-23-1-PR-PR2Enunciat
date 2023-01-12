@@ -63,6 +63,8 @@ public interface SportEvents4Club {
 
     Iterator<Player> getFollowings(String idPlayer) throws NoFollowingException, PlayerNotFoundException;
 
+    Iterator<Post> getPosts(String idPlayer) throws PlayerNotFoundException, NoPostsException, NoFollowersException;
+
     enum Status {
         PENDING,
         ENABLED,

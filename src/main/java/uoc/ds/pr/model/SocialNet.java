@@ -5,6 +5,7 @@ import edu.uoc.ds.adt.nonlinear.DictionaryAVLImpl;
 import edu.uoc.ds.traversal.Iterator;
 import uoc.ds.pr.exceptions.NoFollowersException;
 import uoc.ds.pr.exceptions.NoFollowingException;
+import uoc.ds.pr.exceptions.NoPostsException;
 import uoc.ds.pr.exceptions.PlayerNotFoundException;
 
 import java.time.LocalDate;
@@ -55,6 +56,32 @@ public class SocialNet {
 
     public int getNumFollowers(String userId) throws Exception {
         return getAllFollowers(userId).size();
+    }
+
+    public Iterator<Post> getFollowersPosts(String userId) throws PlayerNotFoundException, NoPostsException {
+        if (!PLAYERS.containsKey(userId)) {
+            throw new PlayerNotFoundException();
+        }
+        if (!FOLLOWERS.containsKey(userId)) {
+            throw new NoPostsException();
+        }
+        List<String> followersIds = new ArrayList<>(FOLLOWERS.get(userId));
+        Collections.sort(followersIds);
+        var result = new edu.uoc.ds.adt.sequential.LinkedList<Player>();
+        for (String follow : followersIds) {
+            result.insertEnd(PLAYERS.get(follow));
+        }
+        var followers = result.values();
+
+        var allPosts = new edu.uoc.ds.adt.sequential.LinkedList<Post>();
+        while (followers.hasNext()) {
+            var follower = followers.next();
+            var posts = follower.getPosts();
+            while (posts.hasNext()) {
+                allPosts.insertEnd(posts.next());
+            }
+        }
+        return allPosts.values();
     }
 
     private edu.uoc.ds.adt.sequential.LinkedList<Player> getAllFollowers(String userId) throws PlayerNotFoundException, NoFollowersException {

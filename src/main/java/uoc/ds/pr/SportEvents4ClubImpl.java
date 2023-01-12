@@ -350,6 +350,11 @@ public class SportEvents4ClubImpl implements SportEvents4Club {
         return socialNet.getFollowings(idPlayer);
     }
 
+    @Override
+    public Iterator<Post> getPosts(String idPlayer) throws PlayerNotFoundException, NoPostsException, NoFollowersException {
+        return socialNet.getFollowersPosts(idPlayer);
+    }
+
 
     public void addPlayer(String playerId, String name, String surname, LocalDate birthday) {
         Player u = getPlayer(playerId);
