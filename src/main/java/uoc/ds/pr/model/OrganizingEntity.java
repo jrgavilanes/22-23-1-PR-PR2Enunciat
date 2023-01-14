@@ -4,13 +4,23 @@ import edu.uoc.ds.adt.sequential.LinkedList;
 import edu.uoc.ds.adt.sequential.List;
 import edu.uoc.ds.traversal.Iterator;
 
-public class OrganizingEntity {
-    private int organizationId;
+import java.util.Comparator;
+
+public class OrganizingEntity implements Comparable<OrganizingEntity> {
+
+    public static Comparator<OrganizingEntity> entityComparator = new Comparator<OrganizingEntity>() {
+        @Override
+        public int compare(OrganizingEntity o1, OrganizingEntity o2) {
+            return o1.numAttenders()-o2.numAttenders();
+        }
+    };
+
+    private String organizationId;
     private String description;
     private String name;
     private List<SportEvent> events;
 
-    public OrganizingEntity(int organizationId, String name, String description) {
+    public OrganizingEntity(String organizationId, String name, String description) {
         this.organizationId = organizationId;
         this.name = name;
         this.description = description;
@@ -21,7 +31,7 @@ public class OrganizingEntity {
         return name;
     }
 
-    public int getOrganizationId() {
+    public String getOrganizationId() {
         return organizationId;
     }
 
@@ -29,7 +39,7 @@ public class OrganizingEntity {
         return description;
     }
 
-    public void setOrganizationId(int organizationId) {
+    public void setOrganizationId(String organizationId) {
         this.organizationId = organizationId;
     }
 
@@ -59,5 +69,20 @@ public class OrganizingEntity {
 
     public Iterator<SportEvent> sportEvents() {
         return events.values();
+    }
+
+    public int numAttenders() {
+        int numAttenders = 0;
+        Iterator<SportEvent> myEvents = events.values();
+        while (myEvents.hasNext()) {
+            var e = myEvents.next();
+            numAttenders += e.numAttenders();
+        }
+        return numAttenders;
+    }
+
+    @Override
+    public int compareTo(OrganizingEntity o) {
+        return this.numAttenders()-o.numAttenders();
     }
 }

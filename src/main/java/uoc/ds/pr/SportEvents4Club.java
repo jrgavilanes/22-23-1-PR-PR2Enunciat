@@ -2,10 +2,7 @@ package uoc.ds.pr;
 
 import edu.uoc.ds.traversal.Iterator;
 import uoc.ds.pr.exceptions.*;
-import uoc.ds.pr.model.File;
-import uoc.ds.pr.model.OrganizingEntity;
-import uoc.ds.pr.model.Player;
-import uoc.ds.pr.model.SportEvent;
+import uoc.ds.pr.model.*;
 
 import java.time.LocalDate;
 
@@ -14,6 +11,59 @@ import java.time.LocalDate;
 public interface SportEvents4Club {
 
 
+    public void addRole(String roleId, String description);
+
+    public void addWorker(String dni, String name, String surname, LocalDate birthday, String roleId);
+
+    public void assignWorker(String dni, String eventId) throws SportEventNotFoundException, WorkerNotFoundException, WorkerAlreadyAssignedException;
+
+    public void addAttender(String phone, String name, String eventId) throws NoSportEventsException, AttenderAlreadyExistsException, LimitExceededException, SportEventNotFoundException;
+
+    public Attender getAttender(String phone, String eventId) throws SportEventNotFoundException, AttenderNotFoundException;
+
+    public Iterator<Attender> getAttenders(String eventId) throws SportEventNotFoundException, NoAttendersException;
+
+    int numRoles();
+
+    int numWorkersByRole(String roleId);
+
+    int numWorkersBySportEvent(String eventId);
+
+    Worker getWorker(String dni);
+
+    int numWorkers();
+
+    Role getRole(String roleId);
+
+    int numAttenders(String eventId);
+
+    public Iterator<Worker> getWorkersBySportEvent(String eventId) throws SportEventNotFoundException, NoWorkersException;
+
+    public Iterator<Worker> getWorkersByRole(String roleId) throws NoWorkersException;
+
+    public Level getLevel(String playerId) throws PlayerNotFoundException;
+
+    public int numRatings(String idPlayer) throws PlayerNotFoundException;
+
+    public Iterator<Enrollment> getSubstitutes(String eventId) throws SportEventNotFoundException, NoSubstitutesException;
+
+    public Iterator<OrganizingEntity> best5OrganizingEntities();
+
+    SportEvent bestSportEventByAttenders();
+
+    Iterator<Player> recommendations(String idPlayer) throws PlayerNotFoundException, NoFollowersException;
+
+    void addFollower(String idPlayer, String idFollower) throws PlayerNotFoundException;
+
+    int numFollowers(String idPlayer);
+
+    int numFollowings(String idPlayer);
+
+    Iterator<Player> getFollowers(String idPlayer) throws PlayerNotFoundException, NoFollowersException;
+
+    Iterator<Player> getFollowings(String idPlayer) throws NoFollowingException, PlayerNotFoundException;
+
+    Iterator<Post> getPosts(String idPlayer) throws PlayerNotFoundException, NoPostsException, NoFollowersException;
 
     enum Status {
         PENDING,
@@ -27,6 +77,14 @@ public interface SportEvents4Club {
         MEDIUM,
         LARGE,
         XLARGE,
+    }
+
+    enum Level {
+        LEGEND,
+        MASTER,
+        EXPERT,
+        PRO,
+        ROOKIE,
     }
     //
     // Resources
@@ -44,6 +102,8 @@ public interface SportEvents4Club {
     public static final int MAX_NUM_ENROLLMENT= 150;
 
     public static final int MAX_NUM_PLAYER = 120;
+
+    public static final int MAX_NUM_ROLES = 120;
     public static final int MAX_NUM_ORGANIZING_ENTITIES = 20;
 
 
@@ -95,7 +155,7 @@ public interface SportEvents4Club {
      * @param name the name
      * @param description the description
      */
-    public void addOrganizingEntity (int id, String name, String description);
+    public void addOrganizingEntity (String id, String name, String description);
 
     /**
      * Create a file about a new sporting event
@@ -117,7 +177,7 @@ public interface SportEvents4Club {
      * @see uoc.ds.pr.util.ResourceUtil
      * @throws OrganizingEntityNotFoundException
      */
-    public void addFile(String id, String eventId, int orgId, String description,
+    public void addFile(String id, String eventId, String orgId, String description,
                         Type type, byte resources, int max, LocalDate startDate, LocalDate endDate) throws OrganizingEntityNotFoundException;
 
     /**
@@ -177,7 +237,7 @@ public interface SportEvents4Club {
      * @return iterator to iterate through the events of an organizing entity
      * @throws NoSportEventsException if there are no sports event
      */
-    public Iterator<SportEvent> getSportEventsByOrganizingEntity(int organizationId) throws NoSportEventsException;
+    public Iterator<SportEvent> getSportEventsByOrganizingEntity(String organizationId) throws NoSportEventsException;
 
     /**
      * Consult all the sporting events that are in the system. If there is none, an error will be shown.
@@ -272,14 +332,14 @@ public interface SportEvents4Club {
     public int numSportEvents();
     public int numSportEventsByPlayer(String playerId);
     public int numPlayersBySportEvent(String sportEventId);
-    public int numSportEventsByOrganizingEntity(int orgId);
+    public int numSportEventsByOrganizingEntity(String orgId);
     public  int numSubstitutesBySportEvent(String sportEventId);
 
     public Player getPlayer(String playerId);
 
     public SportEvent getSportEvent(String eventId);
 
-    public OrganizingEntity getOrganizingEntity(int id);
+    public OrganizingEntity getOrganizingEntity(String id);
 
     public File currentFile();
 

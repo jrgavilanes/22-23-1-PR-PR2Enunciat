@@ -21,7 +21,7 @@ public class FactorySportEvents4Club {
 
         Assert.assertThrows(PlayerNotFoundException.class, () ->
                 sportEvents4Club.mostActivePlayer());
-        ;
+
 
 
         ////

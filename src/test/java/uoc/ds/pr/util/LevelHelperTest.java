@@ -26,7 +26,5 @@ public class LevelHelperTest {
         Assert.assertEquals(SportEvents4Club.Level.PRO, LevelHelper.getLevel(2));
         Assert.assertEquals(SportEvents4Club.Level.ROOKIE, LevelHelper.getLevel(1));
         Assert.assertEquals(SportEvents4Club.Level.ROOKIE, LevelHelper.getLevel(0));
-
-
     }
 }

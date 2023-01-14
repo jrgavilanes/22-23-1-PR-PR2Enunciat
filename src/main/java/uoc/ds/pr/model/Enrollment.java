@@ -5,7 +5,11 @@ public class Enrollment {
     boolean isSubtitute;
 
     public Enrollment(Player player, boolean isSubstitute) {
-        player = player;
-        isSubstitute = isSubstitute;
+        this.player = player;
+        this.isSubtitute = isSubstitute;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }
