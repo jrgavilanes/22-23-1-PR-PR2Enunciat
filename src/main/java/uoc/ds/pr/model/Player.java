@@ -5,6 +5,7 @@ import edu.uoc.ds.adt.sequential.List;
 import edu.uoc.ds.traversal.Iterator;
 import uoc.ds.pr.SportEvents4Club;
 import uoc.ds.pr.exceptions.NoPostsException;
+import uoc.ds.pr.util.LevelHelper;
 
 
 import java.time.LocalDate;
@@ -81,7 +82,7 @@ public class Player {
 
     public boolean isInSportEvent(String eventId) {
         boolean found = false;
-        SportEvent sportEvent = null;
+        SportEvent sportEvent;
         Iterator<SportEvent> it = getEvents();
         while (it.hasNext() && !found) {
             sportEvent = it.next();
@@ -103,16 +104,7 @@ public class Player {
     }
 
     public SportEvents4Club.Level getLevel() {
-        if (numRatings >= 0 && numRatings < 2) {
-            return SportEvents4Club.Level.ROOKIE;
-        } else if (numRatings >= 2 && numRatings < 5) {
-            return SportEvents4Club.Level.PRO;
-        } else if (numRatings >= 5 && numRatings < 10) {
-            return SportEvents4Club.Level.EXPERT;
-        } else if (numRatings >= 10 && numRatings < 15) {
-            return SportEvents4Club.Level.MASTER;
-        }
-        return SportEvents4Club.Level.LEGEND;
+        return LevelHelper.getLevel(numRatings);
     }
 
     public Iterator<Post> getPosts() throws NoPostsException {
